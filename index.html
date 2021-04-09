@@ -47,7 +47,7 @@
   </header>
 
     <!-- Jumbotron  -->
-  <div class="jumbotron bg-dark text-white rounded-0">
+  <div class="jumbotron bg-dark text-white">
     <div class="container">
      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus eius ipsa dolores asperiores explicabo quis, obcaecati tempore, blanditiis reiciendis labore quasi. Debitis voluptates sapiente itaque totam deleniti minima? Eaque, vel.</p>
     </div>
@@ -65,18 +65,32 @@
     <div id="app">
 
       <!-- This is the Image input part -->
-      <div class="card mb-4">
-        <div class="card-body">
-          <div class="p-5 text-center">Drop image here or <label class="text-primary">browse... <input type="file" class="sr-only" id="input_cmprss" accept="image/*" ref="input"></label></div>
-        </div>
+
+      <div class="btn-group col-12 mb-5">
+        <label class="btn btn-primary" title="select an image (jpeg, png)">
+          <input type="file" class="read" name="file" id="input_cmprss">
+        </label>
       </div>
       <!-- This is the Image input part -->
 
 
       <div class="row">
 
+
+          <!-- This contains main Image container -->
+		  <div class="col-lg-8 mb-4 comp_img_container">
+		  <div class="card img-con">
+        <h4 class="card-header">Comparing images</h4>
+        <div class="card-body">
+          <img src="Images/orman.jpg" alt="" id="comp_img" class="card-img">
+        </div>
+          </div>
+		  </div>
+          <!-- This contains main Image container -->
+
+
         <!-- This contains the options -->
-        <div class="col-lg-3 mb-4">
+        <div class="col-lg-4 mb-4">
           <div class="card h-100">
             <h4 class="card-header">Options</h4>
             <div class="card-body">
@@ -84,7 +98,7 @@
               <fieldset class="form-group m-5">
 
                 <div class="form-group row">
-                  <input type="range" min="0" max="80" id="comp_rate">
+                  <input type="range" min="0" max="75" id="comp_rate" value="75">
                 </div>
 
               </fieldset>
@@ -122,83 +136,85 @@
         </div>
         <!-- This contains the options -->
 
-          <!-- This contains main Image container -->
-		  <div class="col-lg-8 mb-4">
-		  <div class="card img-con">
-        <h4 class="card-header">Comparing images</h4>
-        <div class="card-body">
-          <img src="images/orman.jpg" alt="" id="comp_img" class="img-fluid">
-        </div>
-          </div>
-		  </div>
-          <!-- This contains main Image container -->
-
 
         <!--  This contains Input and Output Images      -->
         <div class="mb-4">
-          <div class="card mb-4">
+
+          <!-- Input Image Displayer -->
+          <div class="card">
             <h5 class="card-header d-flex align-items-center justify-content-between">
               <span>Input image <small class="text-secondary">(original image)</small></span>
-              <a class="btn btn-sm btn-blocks btn-outline-primary" :download="input.name" :href="inputURL" title="Download the compressed image">Download</a>
             </h5>
                                                                                   <!-- Separation of header and content  -->
             <div class="card-body">
               <div class="row">
-                <div class="col-md-4 d-flex mb-3">
+                <div class="col-md-4 mb-3">
                   <div class="w-100 text-center">
-                    <img class="mw-100" :src="inputURL" :alt="input.name">
+                    <img class="card-img " src="Images/orman.jpg" id="input_Image" alt="output.name">
                   </div>
                   <div class="w-100 bg-light"></div>
                 </div>
                 <div class="col-md-8">
-                  <dl class="row">
-                    <dt class="col-5">Property :</dt>
-                    <dd class="col-7">Value</dd>
-                    <dt class="col-5">Property :</dt>
-                    <dd class="col-7">Value</dd>
-                    <dt class="col-5">Property :</dt>
-                    <dd class="col-7">Value</dd>
-                    <dt class="col-5">Property :</dt>
-                    <dd class="col-7">Value</dd>
-                    <dt class="col-5">Property :</dt>
-                    <dd class="col-7">Value</dd>
-                  </dl>
+
+                  <div class="list-group">
+                    <li class="list-group-item d-flex mb-2">
+                      <div class="ms-2 me-auto ">
+                        <strong>File Type :</strong>
+                      </div>
+                      <span class="badge bg-primary rounded-pill" id="file_type"></span>
+                    </li>
+
+                    <li class="list-group-item d-flex mb-2">
+                      <div class="ms-2 me-auto ">
+                       <strong>File Size :</strong>
+                      </div>
+                      <span class="badge bg-primary rounded-pill" id="file_size"></span>
+                    </li>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <!-- Input Image Displayer -->
+
+          <!-- Output Image Displayer -->
           <div class="card">
             <h5 class="card-header d-flex align-items-center justify-content-between">
               <span>Output image <small class="text-secondary">(compressed image)</small></span>
-              <a class="btn btn-sm btn-blocks btn-outline-primary" :download="output.name" :href="outputURL" title="Download the compressed image">Download</a>
+              <a href="" download="file" id="comp_download" class="btn btn-primary">download</a>
             </h5>
                                                                                  <!-- Separation of header and content  -->
             <div class="card-body">
               <div class="row">
-                <div class="col-md-4 d-flex mb-3">
+                <div class="col-md-4 mb-3">
                   <div class="w-100 text-center">
-                    <img class="mw-100" :src="outputURL" :alt="output.name">
+                    <img class="card-img" src="Images/orman.jpg" id="output_image" alt="output.name">
                   </div>
                   <div class="w-100 bg-light"></div>
                 </div>
                 <div class="col-md-8">
-                  <dl class="row">
-                    <dt class="col-5">Property :</dt>
-                    <dd class="col-7">Value</dd>
-                    <dt class="col-5">Property :</dt>
-                    <dd class="col-7">Value</dd>
-                    <dt class="col-5">Property :</dt>
-                    <dd class="col-7">Value</dd>
-                    <dt class="col-5">Property :</dt>
-                    <dd class="col-7">Value</dd>
-                    <dt class="col-5">Property :</dt>
-                    <dd class="col-7">Value</dd>
-                    </dd>
-                  </dl>
+
+                  <div class="list-group">
+                    <li class="list-group-item d-flex mb-2">
+                      <div class="ms-2 me-auto">
+                       <strong>File Type :</strong>
+                      </div>
+                      <span class="badge bg-primary rounded-pill" id="Ofile_type"></span>
+                    </li>
+
+                    <li class="list-group-item d-flex mb-2">
+                      <div class="ms-2 me-auto">
+                        <strong>File Size :</strong>
+                      </div>
+                      <span class="badge bg-primary rounded-pill" id="Ofile_size"></span>
+                    </li>
+                  </div>
+
                 </div>
               </div>
             </div>
           </div>
+          <!-- Output Image Displayer -->
         </div>
         <!--  This contains Input and Output Images     -->
 
@@ -206,6 +222,8 @@
     </div>
   </div>
 
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="index.js"></script>
 	</body>
 
