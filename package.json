@@ -1,0 +1,24 @@
+{
+  "name": "comp2dustgit",
+  "version": "1.0.0",
+  "description": "\"A compression app\"",
+  "main": "index.js",
+  "dependencies": {
+    "compress-js": "^2.0.2",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YigitSIK/Comp2Dust.git"
+  },
+  "author": "Yiğit Şık",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YigitSIK/Comp2Dust/issues"
+  },
+  "homepage": "https://github.com/YigitSIK/Comp2Dust#readme"
+}
