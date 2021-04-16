@@ -7,6 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Comp2Dust image compressor">
   <meta name="author" content="Yiğit Şık">
+
+<!--  ██████╗ ██████╗ ███╗   ███╗██████╗ ██████╗ ██████╗ ██╗   ██╗███████╗████████╗-->
+<!--  ██╔════╝██╔═══██╗████╗ ████║██╔══██╗╚════██╗██╔══██╗██║   ██║██╔════╝╚══██╔══╝-->
+<!--  ██║     ██║   ██║██╔████╔██║██████╔╝ █████╔╝██║  ██║██║   ██║███████╗   ██║-->
+<!--  ██║     ██║   ██║██║╚██╔╝██║██╔═══╝ ██╔═══╝ ██║  ██║██║   ██║╚════██║   ██║-->
+<!--  ╚██████╗╚██████╔╝██║ ╚═╝ ██║██║     ███████╗██████╔╝╚██████╔╝███████║   ██║-->
+<!--  ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝     ╚══════╝╚═════╝  ╚═════╝ ╚══════╝   ╚═╝-->
+
   <title>Comp2Dust</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <script src="node_modules/compress-js/dist/compressjs.js"></script>
@@ -14,6 +22,7 @@
 
 <body>
 
+<form action="/" method="post">
 <header class="navbar navbar-light navbar-expand-md">
     <div class="container">
       <a class="navbar-brand" href="..">Comp2Dust <small class="h6">v1.0.1</small> </a>
@@ -66,11 +75,13 @@
 
       <!-- This is the Image input part -->
 
-      <div class="btn-group col-12 mb-5">
+
+      <div class="btn-group col-12 mb-5 ">
         <label class="btn btn-primary" title="select an image (jpeg, png)">
-          <input type="file" class="read" name="file" id="input_cmprss">
+          <input type="file" class="read" name="file"  id="input_cmprss">
         </label>
       </div>
+
       <!-- This is the Image input part -->
 
 
@@ -79,10 +90,10 @@
 
           <!-- This contains main Image container -->
 		  <div class="col-lg-8 mb-4 comp_img_container">
-		  <div class="card img-con">
+		  <div class="card">
         <h4 class="card-header">Comparing images</h4>
-        <div class="card-body">
-          <img src="upload.jpg" alt="" id="comp_img" class="card-img">
+        <div class="card-body img-con d-flex" style="height: 650px">
+          <img class="card-img" src="upload.jpg" alt="" id="comp_img">
         </div>
           </div>
 		  </div>
@@ -98,38 +109,41 @@
               <fieldset class="form-group m-5">
 
                 <div class="form-group row">
-                  <input type="range" min="0" max="75" id="comp_rate" value="75">
+                  <label for="comp_rate">Compression</label>
+                  <input type="range" name="rate" min="0" max="75" id="comp_rate" value="75">
                 </div>
 
               </fieldset>
 
               <div class="form-group row my-5">
-                <label for="option1" class="col-5 col-form-label">Option</label>
+                <label for="width" class="col-5 col-form-label">Width</label>
                 <div class="col-7">
-                  <input type="number" name="option1" class="form-control" id="option1" placeholder="Infinity">
+                  <input type="number" value="" min="0" max="2500" class="form-control" id="width" placeholder="">
                 </div>
               </div>
 
               <div class="form-group row my-5">
-                <label for="option1" class="col-5 col-form-label">Option</label>
+                <label for="height" class="col-5 col-form-label">Height</label>
                 <div class="col-7">
-                  <input type="number" name="option1" class="form-control" id="option2" placeholder="Infinity">
+                  <input type="number" value="" min="0" max="2500"  class="form-control" id="height" placeholder="">
                 </div>
               </div>
 
-              <div class="form-group row my-5">
-                <label for="option1" class="col-5 col-form-label">Option</label>
-                <div class="col-7">
-                  <input type="number" name="option1" class="form-control" id="option3" placeholder="Infinity">
+                <div class="form-group row m-5">
+                  <strong>Compression Ratio :</strong>
+                  <textarea name="comp_ratio" id="comp_ratio" cols="30" rows="1"  readonly style="resize: none;text-align: center"></textarea>
                 </div>
-              </div>
 
-              <div class="form-group row my-5">
-                <label for="option1" class="col-5 col-form-label">Option</label>
-                <div class="col-7">
-                  <input type="number" name="option1" class="form-control" id="option4" placeholder="Infinity">
+                <div class="form-group row m-5">
+                  <strong>Psnr Value :</strong>
+                  <textarea name="psnr" id="psnr" cols="30" rows="1"  readonly style="resize: none;text-align: center"></textarea>
                 </div>
-              </div>
+
+              <div class="form-group row m-5">
+                <button class="btn bg-primary" >Reset</button>
+               </div>
+
+
 
             </div>
           </div>
@@ -141,35 +155,47 @@
         <div class="mb-4">
 
           <!-- Input Image Displayer -->
-          <div class="card">
+          <div class="card my-3">
             <h5 class="card-header d-flex align-items-center justify-content-between">
-              <span>Input image <small class="text-secondary">(original image)</small></span>
+              <span>Input image </span>
             </h5>
                                                                                   <!-- Separation of header and content  -->
-            <div class="card-body">
+            <div class="card-body" >
               <div class="row">
-                <div class="col-md-4 mb-3">
-                  <div class="w-100 text-center">
-                    <img class="card-img " src="upload.jpg" id="input_Image" alt="output.name">
-                  </div>
-                  <div class="w-100 bg-light"></div>
+                <div class="col-md-4 mb-3 d-flex" style="height: 275px">
+                    <img class="card-img" name="input_image" src="upload.jpg" id="input_Image" alt="output.name">
                 </div>
                 <div class="col-md-8">
-
                   <div class="list-group">
+
+                    <li class="list-group-item d-flex mb-2">
+                      <div class="ms-2 me-auto">
+                        <strong>File Name :</strong>
+                      </div>
+                      <textarea name="file_name" id="Ifile_name" cols="30" rows="1"  readonly style="resize: none;text-align: center"></textarea>
+                    </li>
+
                     <li class="list-group-item d-flex mb-2">
                       <div class="ms-2 me-auto ">
                         <strong>File Type :</strong>
                       </div>
-                      <span class="badge bg-primary rounded-pill" id="file_type"></span>
+                      <textarea name="file_type" id="file_type" cols="30" rows="1"  readonly style="resize: none;text-align: center"></textarea>
                     </li>
 
                     <li class="list-group-item d-flex mb-2">
                       <div class="ms-2 me-auto ">
                        <strong>File Size :</strong>
                       </div>
-                      <span class="badge bg-primary rounded-pill" id="file_size"></span>
+                      <textarea name="file_size" id="file_size" cols="30" rows="1"  readonly style="resize: none;text-align: center"></textarea>
                     </li>
+
+                    <li class="list-group-item d-flex mb-2">
+                      <div class="ms-2 me-auto ">
+                        <strong>Image Dimensions :</strong>
+                      </div>
+                      <textarea name="iDimen" id="iDimen" cols="30" rows="1"  readonly style="resize: none;text-align: center"></textarea>
+                    </li>
+
                   </div>
                 </div>
               </div>
@@ -179,37 +205,50 @@
 
           <!-- Output Image Displayer -->
           <div class="card">
-            <h5 class="card-header d-flex align-items-center justify-content-between">
-              <span>Output image <small class="text-secondary">(compressed image)</small></span>
-              <a href="" download="file" id="comp_download" class="btn btn-primary">download</a>
+            <h5 class="card-header d-flex  justify-content-between">
+              <span>Output image</span>
+              <a href="" onclick="this.closest('form').submit();return false;" download="file" id="comp_download" class="btn btn-primary">download</a>
             </h5>
                                                                                  <!-- Separation of header and content  -->
-            <div class="card-body">
+            <div class="card-body "  >
               <div class="row">
-                <div class="col-md-4 mb-3">
-                  <div class="w-100 text-center">
-                    <img class="card-img" src="upload.jpg" id="output_image" alt="output.name">
-                  </div>
-                  <div class="w-100 bg-light"></div>
+                <div class="col-md-4 mb-3  d-flex " style="height: 275px">
+                    <img class="card-img " name="output_image" src="upload.jpg" id="output_image" alt="output.name">
                 </div>
+
                 <div class="col-md-8">
 
                   <div class="list-group">
+
+                    <li class="list-group-item d-flex mb-2">
+                      <div class="ms-2 me-auto">
+                        <strong>File Name :</strong>
+                      </div>
+                      <textarea name="file_name" id="file_name" cols="30" rows="1"  readonly style="resize: none;text-align: center"></textarea>
+                    </li>
+
                     <li class="list-group-item d-flex mb-2">
                       <div class="ms-2 me-auto">
                        <strong>File Type :</strong>
                       </div>
-                      <span class="badge bg-primary rounded-pill" id="Ofile_type"></span>
+                      <textarea name="Ofile_type" id="Ofile_type" cols="30" rows="1"  readonly style="resize: none;text-align: center"></textarea>
                     </li>
 
                     <li class="list-group-item d-flex mb-2">
                       <div class="ms-2 me-auto">
                         <strong>File Size :</strong>
                       </div>
-                      <span class="badge bg-primary rounded-pill" id="Ofile_size"></span>
+                      <textarea name="Ofile_size" id="Ofile_size" cols="30" rows="1"  readonly style="resize: none;text-align: center"></textarea>
                     </li>
-                  </div>
 
+                    <li class="list-group-item d-flex mb-2">
+                      <div class="ms-2 me-auto">
+                        <strong>Image Dimensions :</strong>
+                      </div>
+                      <textarea name="oDimen" id="oDimen" cols="30" rows="1"  readonly style="resize: none;text-align: center"></textarea>
+                    </li>
+
+                  </div>
                 </div>
               </div>
             </div>
@@ -222,9 +261,9 @@
     </div>
   </div>
 
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="index.js"></script>
+</form>
 	</body>
 
 </html>
