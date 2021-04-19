@@ -5,14 +5,13 @@ const port = 3000;
 const bodyParser = require('body-parser');
 app.use(bodyParser.json(),bodyParser.urlencoded({extended:true})); //This part lets you reach the html elements
 
-//Include Mongoose
+// Mongoose
 
     const mongoose = require('mongoose');
 
     mongoose.connect("mongodb+srv://admin-cvlt:grind_code66@cluster0.ovzyp.mongodb.net/CompLog", {useNewUrlParser: true, useUnifiedTopology: true});
 
     const imageSchema = new mongoose.Schema({
-
 
         fileName: String,
         fileType: String,
@@ -24,14 +23,18 @@ app.use(bodyParser.json(),bodyParser.urlencoded({extended:true})); //This part l
         compRate: Number,
         psnr: Number,
         comp_ratio: Number
-
     });
 
     const imgData = mongoose.model("imgData", imageSchema);
 
 
+
 app.get("/upload.jpg",function (request,response) {
     response.sendFile(__dirname+"/upload.jpg");
+})
+
+app.get("/header.jpg",function (request,response) {
+    response.sendFile(__dirname+"/header.jpg");
 })
 
 app.get("/",function (request,response) {
@@ -50,18 +53,22 @@ app.post("/",function (req,res)
 {
 
     console.log("Post Request !");
-
-    // console.log(req.body);
+    console.log(req.body)
 
     const imgSample = new imgData ({
 
+        fileName: req.body.fileName,
         fileType: req.body.file_type,
         fileSize: req.body.file_size,
         inputDimensions: req.body.iDimen,
         outputDimensions: req.body.oDimen,
+        OfileSize: req.body.OfileSize,
+        OfileType: req.body.OfileType,
+        compRate: req.body.rate,
     });
 
-    imgSample.save((err, doc) => console.log(doc));
+    imgSample.save();
+
 
 })
 

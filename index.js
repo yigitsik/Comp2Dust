@@ -1,6 +1,9 @@
 
 var imageWidth;
 var imageHeight;
+var imageInitialWidth;
+var imageInitialHeight;
+var theImage= new Image();
 
 
 let comp = Compress({
@@ -13,6 +16,7 @@ let comp = Compress({
     dimen: null,
     rateSelector: '#comp_rate',
 });
+
     comp.on('compressed', (files) => {
     console.group('compressed images data url');
     console.log('this array contains the url for the compressed images');
@@ -43,8 +47,6 @@ let comp = Compress({
 
     });
 
-
-
     comp.on('compressing', () =>
     {
         console.log("compressing");
@@ -57,9 +59,13 @@ let comp = Compress({
         var width = $("#width").val();
         var currentHeight=  $( "#height" ).val();
         console.log("assiging width "+width);
-        if (currentHeight==0)
+        if (currentHeight==0&&width!=0)
         {
             comp.options.dimen = {width:width,height:imageHeight};
+        }
+        else if (width==0)
+        {
+            alert("Enter a valid width");
         }
         else
         {
@@ -74,14 +80,19 @@ let comp = Compress({
         var height = $("#height").val();
         var currentWidth=  $( "#width" ).val();
         console.log("assiging height "+height);
-        if (currentWidth==0)
+        if (currentWidth==0&&height!=0)
         {
             comp.options.dimen = {width:imageWidth,height:height};
         }
+        else if (height==0)
+        {
+            alert("Enter a valid height");
+        }
         else
+        {
             comp.options.dimen = {width:currentWidth,height:height};
+        }
 
-        console.log(comp.options.dimen);
     });
     //Set Option Value:Height
 
@@ -103,8 +114,11 @@ let comp = Compress({
 
                 img.onload = (function (){
                     $('#iDimen').text(img.width+" X "+img.height);
+                    imageInitialWidth=img.width;
+                    imageInitialHeight=img.height;
                 })
                 img.src = e.target.result;
+                theImage.src=e.target.result;
             }
 
             reader.readAsDataURL(input.files[0]);
@@ -117,7 +131,26 @@ let comp = Compress({
     //This Function Gets from input the Original Image and Puts it To Input Image Card
 
 
-    // function GetDim() // this works with the tag in img element ==> onload="GetDim()"
-    // {
-    // console.log( $("#comp_img").width)
-    // }
+    function resetOptions() // Reset Options
+    {
+        $('#width').val("");
+        $('#height').val("");
+        comp.options.dimen = {width:imageInitialWidth,height:imageInitialHeight};
+        $('#comp_img').attr('src',theImage.src);
+    }
+
+    //Ajax
+    $("#theForm").submit(function(event){
+    event.preventDefault(); //prevent default action
+    var post_url = $('#theForm').attr("action"); //get form action url
+    var request_method = $('#theForm').attr("method"); //get form GET/POST method
+    var form_data = $('#theForm').serialize(); //Encode form elements for submission
+
+    $.ajax({
+        url : post_url,
+        type: request_method,
+        data : form_data
+    }).done(function(response){ //
+        $("#server-results").html(response);
+    });
+});
