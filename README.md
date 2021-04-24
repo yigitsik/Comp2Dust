@@ -18,4 +18,8 @@ Basic Implementation
 
 Set-up Project for Deployment
 
+##### 19/04/2021
+
+Improve UI, Fix Bugs, Prepared Documents
+
 
