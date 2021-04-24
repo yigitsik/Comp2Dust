@@ -16,10 +16,14 @@ Basic Implementation
 
 ##### 14/04/2021
 
-Set-up Project for Deployment
+Set-up Project for Deployment to Heroku, Bind Database
 
 ##### 19/04/2021
 
 Improve UI, Fix Bugs, Prepared Documents
+
+##### 24/04/2021
+
+Improve UI, Fix Bugs, Add Instructions
 
 
