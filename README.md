@@ -4,6 +4,8 @@
 
 İleri Programlama Teknikleri Dönem Ödevi 2021
 
+See Live Demo - http://comp2dust.herokuapp.com/
+
 ## Log
 
 ##### 07/04/2021
@@ -25,5 +27,9 @@ Improve UI, Fix Bugs, Prepared Documents
 ##### 24/04/2021
 
 Improve UI, Fix Bugs, Add Instructions
+
+##### 25/04/2021
+
+Aplha prepare
 
 
