@@ -21,19 +21,18 @@ app.use(bodyParser.json(),bodyParser.urlencoded({extended:true})); //This part l
         inputDimensions: String,
         outputDimensions: String,
         compRate: Number,
-        psnr: Number,
-        comp_ratio: Number
+        status: Number
     });
 
     const imgData = mongoose.model("imgData", imageSchema);
 
 
 
-app.get("/upload.jpg",function (request,response) {
+app.get("/images/upload.jpg",function (request,response) {
     response.sendFile(__dirname+"/images/upload.jpg");
 })
 
-app.get("/header.jpg",function (request,response) {
+app.get("/images/header.jpg",function (request,response) {
     response.sendFile(__dirname+"/images/header.jpg");
 })
 
@@ -41,8 +40,8 @@ app.get("/",function (request,response) {
     response.sendFile(__dirname+"/index.html");
 })
 
-app.get("/index.js",function (request,response) {
-    response.sendFile(__dirname+"/index.js");
+app.get("/src/index.js",function (request,response) {
+    response.sendFile(__dirname+"/src/index.js");
 })
 
 app.get("/node_modules/compress-js/dist/compressjs.js",function (request,response) {
@@ -65,6 +64,7 @@ app.post("/",function (req,res)
         OfileSize: req.body.OfileSize,
         OfileType: req.body.OfileType,
         compRate: req.body.rate,
+        status: req.body.status
     });
 
     imgSample.save();
