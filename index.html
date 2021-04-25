@@ -26,7 +26,7 @@
 <body>
 
 
-<div class="jumbotron jumbotron-fluid" style="background-image: url(header.jpg); height: 150px">
+<div class="jumbotron jumbotron-fluid" style="background-image: url(images/header.jpg); height: 150px">
 
   <header class="navbar navbar-light navbar-expand-md">
     <div class="container">
@@ -34,19 +34,19 @@
       <div class="collapse navbar-collapse justify-content-end" id="navbar-collapse" role="navigation">
         <ul class="nav navbar-nav" >
           <li class="nav-item" >
-            <a class="nav-link" style="color: azure" href="A simple Manual">Docs</a>
+            <a class="nav-link disabled" style="color: azure" href="A simple Manual">Docs</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link " style="color: azure">Examples</a>
+            <a class="nav-link disabled " style="color: azure">Examples</a>
           </li>
           <li class="nav-item ">
             <a class="nav-link" style="color: azure" href="https://github.com/YigitSIK/Comp2Dust" title="View the GitHub project">GitHub</a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" style="color: azure" href="This part will be an explanation about algs" title="Explore more projects">Explore</a>
+            <a class="nav-link disabled" style="color: azure" href="This part will be an explanation about algs" title="Explore more projects">Explore</a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" style="color: azure" href="Explanation of the project" title="About the author">About</a>
+            <a class="nav-link disabled" style="color: azure" href="Explanation of the project" title="About the author">About</a>
           </li>
         </ul>
       </div>
@@ -94,7 +94,7 @@
 		  <div class="card shadow-lg  ">
         <h4 class="card-header"></h4>
         <div class="card-body h-100 img-con d-flex" style="max-height: 650px;">
-          <img class="card-img "  src="upload.jpg" alt="" id="comp_img">
+          <img class="card-img " src="images/upload.jpg" alt="" id="comp_img">
         </div>
           </div>
 		  </div>
@@ -110,7 +110,7 @@
               <fieldset class="form-group m-5">
 
                 <div class="form-group row">
-                  <label for="comp_rate">Compression</label>
+                  <label for="comp_rate">Quality</label>
                   <input type="range" name="rate" min="0" max="75" id="comp_rate" value="75">
                 </div>
 
@@ -130,15 +130,10 @@
                 </div>
               </div>
 
-<!--                <div class="form-group row m-5" hidden>//*********************** To be Developed-->
-<!--                  <p>Compression Ratio :</p>-->
-<!--                  <label for="comp_ratio"></label><textarea name="comp_ratio" id="comp_ratio" cols="30" rows="1" readonly style="resize: none;text-align: center"></textarea>-->
-<!--                </div>-->
-
-<!--                <div class="form-group row m-5" hidden>//*********************** To be Developed-->
-<!--                  <p>Psnr Value :</p>-->
-<!--                  <label for="psnr"></label><textarea name="psnr" id="psnr" cols="30" rows="1" readonly style="resize: none;text-align: center"></textarea>-->
-<!--                </div>-->
+                <div class="form-group row m-5 text-center" >
+                  <p>Status</p>
+                  <label for="status"></label><textarea name="comp_ratio" id="status" cols="30" rows="1" readonly style="resize: none;text-align: center; border: none"></textarea>
+                </div>
 
               <div class="form-group row m-5">
                 <button class="btn bg-primary" type="button" onclick="resetOptions()" >Reset</button>
@@ -162,7 +157,7 @@
             <div class="card-body" >
               <div class="row">
                 <div class="col-md-4 mb-3  shadow-sm d-flex" style="max-height: 300px">
-                    <img class="card-img" src="upload.jpg" id="input_Image" alt="upload.jpg">
+                    <img class="card-img" src="images/upload.jpg" id="input_Image" alt="upload.jpg">
                 </div>
                 <div class="col-md-8">
                   <ul class="list-group my-4 shadow-sm" >
@@ -214,7 +209,7 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-md-4 mb-3 shadow-sm  d-flex " style="max-height: 300px">
-                    <img class="card-img " name="output_image" src="upload.jpg" id="output_image" alt="upload.jpg">
+                    <img class="card-img " name="output_image" src="images/upload.jpg" id="output_image" alt="upload.jpg">
                 </div>
 
                 <div class="col-md-8">
@@ -264,7 +259,7 @@
   </div>
 
 
-    <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="src/index.js"></script>
 
 	</body>
 

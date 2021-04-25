@@ -3,6 +3,8 @@ var imageWidth;
 var imageHeight;
 var imageInitialWidth;
 var imageInitialHeight;
+var imageInitialSize;
+var outputSize;
 var theImage= new Image();
 
 
@@ -38,7 +40,9 @@ let comp = Compress({
         fetch(files)
             .then(res => res.blob()) // Gets the response and returns it as a blob
             .then(blob => {
-                $('#Ofile_size').text((blob.size/1024).toFixed(1)+ "  kb");
+                outputSize = (blob.size/1024).toFixed(1)
+                $('#Ofile_size').text((blob.size/1024).toFixed(1)+ " % Saved");
+                $('#status').text(((imageInitialSize-outputSize)/imageInitialSize*100).toFixed(1)+ "% saved")
                 $('#Ofile_type').text(blob.type);
             });
 
@@ -130,8 +134,9 @@ $('#comp_img')[0].addEventListener('drop', function ()
             var img = new Image();
 
             reader.onload = function (e) {
+                imageInitialSize = (input.files.item(0).size/1024).toFixed(1);
                 $('#input_Image').attr('src', e.target.result); // Sends Input to To Input Image Container
-                $('#file_size').text((input.files.item(0).size/1024).toFixed(1) + "  kb"); // Sets Input file size
+                $('#file_size').text( imageInitialSize+ "  kb"); // Sets Input file size
                 $('#file_type').text(input.files.item(0).type); // Sets Input file type
                 $('#Ifile_name').text( input.files.item(0).name); // Sets Input file name
                 $('#file_name').text( input.files.item(0).name);
@@ -163,6 +168,7 @@ $('#comp_img')[0].addEventListener('drop', function ()
         $('#oDimen').text("");
         $('#Ofile_size').text("");
         $('#Ofile_type').text("");
+        $('#status').text("");
     }
 
     //Ajax

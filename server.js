@@ -30,11 +30,11 @@ app.use(bodyParser.json(),bodyParser.urlencoded({extended:true})); //This part l
 
 
 app.get("/upload.jpg",function (request,response) {
-    response.sendFile(__dirname+"/upload.jpg");
+    response.sendFile(__dirname+"/images/upload.jpg");
 })
 
 app.get("/header.jpg",function (request,response) {
-    response.sendFile(__dirname+"/header.jpg");
+    response.sendFile(__dirname+"/images/header.jpg");
 })
 
 app.get("/",function (request,response) {
