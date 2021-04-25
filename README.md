@@ -30,6 +30,6 @@ Improve UI, Fix Bugs, Add Instructions
 
 ##### 25/04/2021
 
-Aplha prepare
+Alpha prepare
 
 
