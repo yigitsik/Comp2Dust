@@ -41,8 +41,8 @@ let comp = Compress({
             .then(res => res.blob()) // Gets the response and returns it as a blob
             .then(blob => {
                 outputSize = (blob.size/1024).toFixed(1)
-                $('#Ofile_size').text((blob.size/1024).toFixed(1)+ " % Saved");
-                $('#status').text(((imageInitialSize-outputSize)/imageInitialSize*100).toFixed(1)+ "% saved")
+                $('#Ofile_size').text((blob.size/1024).toFixed(1)+ " kb");
+                $('#status').text(((imageInitialSize-outputSize)/imageInitialSize*100).toFixed(1)+ "% Saved")
                 $('#Ofile_type').text(blob.type);
             });
 
