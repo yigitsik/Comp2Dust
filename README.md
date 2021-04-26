@@ -6,6 +6,18 @@
 
 See Live Demo - http://comp2dust.herokuapp.com/
 
+######The run locally 
+
+$ npm install
+
+
+$ node server.js
+
+
+$ Go http://localhost:3000/
+
+
+
 ## Log
 
 ##### 07/04/2021
