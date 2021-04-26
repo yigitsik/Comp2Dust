@@ -6,7 +6,7 @@
 
 See Live Demo - http://comp2dust.herokuapp.com/
 
-###### To run locally 
+##### To run locally 
 
  npm install
 
