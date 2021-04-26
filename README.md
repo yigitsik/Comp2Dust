@@ -6,15 +6,15 @@
 
 See Live Demo - http://comp2dust.herokuapp.com/
 
-######The run locally 
+###### The run locally 
 
-$ npm install
-
-
-$ node server.js
+ npm install
 
 
-$ Go http://localhost:3000/
+ node server.js
+
+
+ Go http://localhost:3000/
 
 
 
