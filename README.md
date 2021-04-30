@@ -2,7 +2,6 @@
 
 ##### Prepared by Yiğit Şık - 205541076
 
-İleri Programlama Teknikleri Dönem Ödevi 2021
 
 See Live Demo - http://comp2dust.herokuapp.com/
 
