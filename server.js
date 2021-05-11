@@ -1,78 +1,84 @@
+const fs = require('fs');
 const express = require('express');
+const multer = require('multer');
+const zipper = require("zip-local");
+const compress_images = require("compress-images");
+
 const app = express();
-const port = 3000;
-
-const bodyParser = require('body-parser');
-app.use(bodyParser.json(),bodyParser.urlencoded({extended:true})); //This part lets you reach the html elements
-
-// Mongoose
-
-    const mongoose = require('mongoose');
-
-    mongoose.connect("mongodb+srv://admin-cvlt:grind_code66@cluster0.ovzyp.mongodb.net/CompLog", {useNewUrlParser: true, useUnifiedTopology: true});
-
-    const imageSchema = new mongoose.Schema({
-
-        fileName: String,
-        fileType: String,
-        fileSize: String,
-        OfileSize: String,
-        OfileType: String,
-        inputDimensions: String,
-        outputDimensions: String,
-        compRate: Number,
-        status: Number
-    });
-
-    const imgData = mongoose.model("imgData", imageSchema);
+const port = process.env.PORT || 5000;
 
 
 
-app.get("/images/upload.jpg",function (request,response) {
-    response.sendFile(__dirname+"/images/upload.jpg");
+// Set destination for Multer
+var storage = multer.diskStorage({
+
+  destination: function (req,file,callback)
+  {
+    var dir = "./uploadedFiles";
+
+    if(!fs.existsSync(dir)){//Create a folder if not exists
+      fs.mkdirSync(dir);
+    }
+    callback(null,dir);
+  },
+
+  filename: function (req, file, callback){
+    callback(null, file.originalname);
+  }
+
+});
+// Set destination for Multer
+
+var upload = multer({storage:storage}).array('file',12);  // Set size for upload
+
+app.post("/upload",(req,res) => {
+
+  console.log(req.file)
+  console.log("/upload")
+
+  upload(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+        return res.status(500).json(err)
+    } else if (err) {
+        return res.status(500).json(err)
+    }
+return res.status(200).send(req.file)
+
 })
+                                                 
+});
 
-app.get("/images/header.jpg",function (request,response) {
-    response.sendFile(__dirname+"/images/header.jpg");
-})
+app.post("/compSubmit",(req,res) => {
 
-app.get("/",function (request,response) {
-    response.sendFile(__dirname+"/index.html");
-})
+  console.log("compSubmit!")
+  console.log(req.body);
 
-app.get("/src/index.js",function (request,response) {
-    response.sendFile(__dirname+"/src/index.js");
-})
+INPUT_path_to_your_images = "./uploadedFiles/**/*.{jpg,JPG,jpeg,JPEG,png,svg,gif}";
+OUTPUT_path = "./build/images/";
 
-app.get("/node_modules/compress-js/dist/compressjs.js",function (request,response) {
-    response.sendFile(__dirname+"/node_modules/compress-js/dist/compressjs.js");
-})
+compress_images(INPUT_path_to_your_images, OUTPUT_path, { compress_force: false, statistic: true, autoupdate: true }, false,
+                { jpg: { engine: "mozjpeg", command: ["-quality", "60"] } },
+                { png: { engine: "pngquant", command: ["--quality=20-50", "-o"] } },
+                { svg: { engine: "svgo", command: "--multipass" } },
+                { gif: { engine: "gifsicle", command: ["--colors", "64", "--use-col=web"] } },
+  function (error, completed, statistic) {
+    console.log("-------------");
+    console.log(error);
+    console.log(completed);
+    console.log(statistic);
+    console.log("-------------");
+  }
+);
 
-app.post("/",function (req,res)
+                                                 
+});
+
+
+    app.get("/",function (req,res)
 {
-
-    console.log("Post Request !");
+    console.log("Get Request on server.js !");
     console.log(req.body)
-
-    const imgSample = new imgData ({
-
-        fileName: req.body.fileName,
-        fileType: req.body.file_type,
-        fileSize: req.body.file_size,
-        inputDimensions: req.body.iDimen,
-        outputDimensions: req.body.oDimen,
-        OfileSize: req.body.OfileSize,
-        OfileType: req.body.OfileType,
-        compRate: req.body.rate,
-        status: req.body.status
-    });
-
-    imgSample.save();
-
-
 })
 
-app.listen(process.env.PORT || port, function (){
-    console.log(`Connecting to pOrt`);
-})
 
+app.listen(port, () => console.log(`Listening on port ${port}`));

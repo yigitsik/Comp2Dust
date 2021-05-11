@@ -1,0 +1,45 @@
+
+.jumbotron.jumbotron-fluid {
+    background-image: url(images/header.jpg);
+    height: 150px
+}
+
+
+.navbar-brand {
+    color: azure
+}
+
+
+.nav-link.disabled {
+    color: azure
+}
+
+.nav-link {
+    color: azure
+}
+
+#imgCard
+{
+   max-height: 650px;
+}
+
+#status
+{
+   resize: none;
+   text-align: center;
+   border: none;
+}
+
+textarea
+{
+   
+   resize: none;
+   text-align: center;
+   border: none
+
+}
+
+#dispCard
+{
+   max-height: 300px;
+}
