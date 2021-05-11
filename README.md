@@ -43,4 +43,8 @@ Improve UI, Fix Bugs, Add Instructions
 
 Alpha prepare
 
+##### 11/05/2021
+
+Recreate front-end with React, Set basic upload feature
+
 
