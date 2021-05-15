@@ -3,7 +3,7 @@ import React from "react";
 function Jumbotron() {
   return (
 
-    <div className="jumbotron jumbotron-fluid" >
+    <div className="jumbotron jumbotron-fluid " style={{ backgroundImage: "url(./images/header.jpg)" }} >
 
     <header className="navbar navbar-light navbar-expand-md">
       <div className="container">

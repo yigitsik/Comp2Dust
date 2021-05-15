@@ -7,6 +7,9 @@ const compress_images = require("compress-images");
 const app = express();
 const port = process.env.PORT || 5000;
 
+ 
+ app.use(express.static("compressedImages"));
+ app.use(express.static("uploadedFiles"));
 
 
 // Set destination for Multer
@@ -31,6 +34,8 @@ var storage = multer.diskStorage({
 
 var upload = multer({storage:storage}).array('file',12);  // Set size for upload
 
+
+// This triggers on user input
 app.post("/upload",(req,res) => {
 
   console.log(req.file)
@@ -43,18 +48,19 @@ app.post("/upload",(req,res) => {
         return res.status(500).json(err)
     }
 return res.status(200).send(req.file)
-
-})
-                                                 
+})                                 
 });
+// This triggers on user input
 
+
+//This triggers on submit button clicked
 app.post("/compSubmit",(req,res) => {
 
   console.log("compSubmit!")
   console.log(req.body);
 
 INPUT_path_to_your_images = "./uploadedFiles/**/*.{jpg,JPG,jpeg,JPEG,png,svg,gif}";
-OUTPUT_path = "./build/images/";
+OUTPUT_path = "./compressedImages/compressed-";
 
 compress_images(INPUT_path_to_your_images, OUTPUT_path, { compress_force: false, statistic: true, autoupdate: true }, false,
                 { jpg: { engine: "mozjpeg", command: ["-quality", "60"] } },
@@ -70,14 +76,40 @@ compress_images(INPUT_path_to_your_images, OUTPUT_path, { compress_force: false,
   }
 );
 
-                                                 
+const folder = './compressedImages';
+
+let outputDir = new Array();
+
+fs.readdir(folder, (err, files) => {
+  files.forEach(file => {
+    outputDir.push(file)
+  });
+
+  res.send(outputDir)
+
 });
 
 
-    app.get("/",function (req,res)
+});
+//This triggers on submit button clicked
+
+
+app.get("/fetchDef",function (req,res)
 {
-    console.log("Get Request on server.js !");
-    console.log(req.body)
+
+  const imageArray = new Array();
+
+  const dir = './client/public/compressedImages/'
+  const files = fs.readdirSync(dir)
+  
+  
+  for (const file of files) {
+    imageArray.push("/compressedImages/"+file)
+  }
+
+  console.log(imageArray)
+  res.send(imageArray);
+    
 })
 
 

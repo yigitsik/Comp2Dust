@@ -1,4 +1,9 @@
 import React from "react";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import responsive from "./CarouselHelper";
+import ImageContainerSmall from "./ImageContainerSmall";
+
 
 function Displayer()
 {
@@ -14,10 +19,15 @@ function Displayer()
 
             <div className="card-body" >
               <div className="row">
-                <div className="col-md-4 mb-3  shadow-sm d-flex" id="dispCard" >
-                    <img className="card-img" src="images/upload.jpg" id="input_Image" alt="upload.jpg"/>
-                </div>
-                <div className="col-md-8">
+
+              <Carousel responsive={responsive}>
+
+              <ImageContainerSmall/>
+              <ImageContainerSmall/>
+          
+              </Carousel>
+                
+                <div>
                   <ul className="list-group my-4 shadow-sm" >
 
                     <li className="list-group-item d-flex" >
