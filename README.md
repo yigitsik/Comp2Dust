@@ -47,4 +47,15 @@ Alpha prepare
 
 Recreate front-end with React, Set basic upload feature
 
+##### 15/05/2021
 
+ Add Image Gallery And Image Comparing Feature
+ 
+##### 17/05/2021
+
+Implement Core functionality
+
+##### 17/05/2021
+
+Add Image Displayers and Statistics Table
+ 
