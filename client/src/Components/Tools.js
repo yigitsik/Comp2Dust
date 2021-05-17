@@ -3,6 +3,7 @@ import axios from "axios";
 import ImageContainer from "./ImageContainer";
 import Displayer from "./Displayer";
 import $ from "jquery";
+import SelectBox from "./selectBox";
 
 
 function Tools () 
@@ -10,21 +11,34 @@ function Tools ()
 
   const [inputArray, setInputArray] = useState(null);
   const [inputFiles, setInputFiles] = useState(null);
-  const [outputArray, setOutputArray] = useState(null);
+  const [outputArray,setOutputArray] = useState(null)
+  const [isCompressedAvailable,setIsCompressedAvailable]=useState(false);
+  const [isInputAvailable,setIsInputAvailable]=useState(false);
 
+
+  
  
   function upload  (e)  {
 
+    axios.get("/reset")
+    .then(function (response) {
+        
+     setInputArray({inputArray:["/images/upload.jpg"]})
+     setIsInputAvailable(false)
+
     const inputArr = new Array()
-
-   Array.from(e.target.files).forEach((piece)=>{
-
+    Array.from(e.target.files).forEach((piece)=>{
     inputArr.push(piece.name)
+    })
 
-    }) 
-
-    setInputArray({inputArray: inputArr})
+    setIsCompressedAvailable(false);
     setInputFiles({inputFiles:e.target.files})
+    setIsInputAvailable(true)
+
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
 
   } 
 
@@ -47,6 +61,16 @@ function Tools ()
       axios.post('/upload', fd)
       .then(function (response) {
         console.log(response);
+        const inputArr = new Array()
+
+Array.from(inputFiles.inputFiles).forEach((piece)=>{
+
+ inputArr.push(piece.name)
+ }) 
+
+ setInputArray({inputArray: inputArr})
+ setIsInputAvailable(true)
+
       })
       .catch(function (error) {
         console.log(error);
@@ -56,22 +80,74 @@ function Tools ()
 
   }
 
+
   function compress(){
 
-    console.log("Compress() function from Options.js")
-    var formData = $("#optionsForm").serialize(); //This function gets the form data into an array
- 
-    axios.post('/compSubmit', formData)
-   .then(function (response) {
+    var formData = $("#optionsForm").serialize(); //This function gets the form data into an array 
 
-    console.log(response.data)
-    setOutputArray({outputArray:response.data})
+    console.log(formData)
+
+    axios.get('/deleteOutput')
+    .then(function (response) {
+
+     console.log("Deleted Outputs")
+     setIsCompressedAvailable(false);
      
-   })
-   .catch(function (error) {
-     console.log(error);
-   });
+    axios.post('/compSubmit', formData)
+    .then(function (response) {
  
+     console.log(response.data)
+     rename();
+ 
+   }).catch(function (error) {
+      console.log(error);
+    });
+     
+ 
+   }).catch(function (error) {
+      console.log(error);
+    });
+    
+   }
+
+   function rename()
+   {
+    axios.get("/rename")
+    .then(function (response) {
+
+      let array = new Array;
+
+      for (let file of inputArray.inputArray) {
+
+     array.push("compressed-"+file)
+      
+        }
+
+     setOutputArray({outputArray: array})
+     setIsCompressedAvailable(true);
+
+     
+                            
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+   }
+   
+
+
+   function reset()
+   {
+
+    axios.get("/reset")
+    .then(function (response) {
+      setIsInputAvailable(false)   
+      setIsCompressedAvailable(false)               
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+
    }
 
       return(
@@ -86,7 +162,7 @@ function Tools ()
 
          <div className="row">
 
-          <ImageContainer imageArray={inputArray} imageoutputArray={outputArray}/>
+          <ImageContainer imageArray={inputArray} outputArray={outputArray} checkOut={isCompressedAvailable} checkIn={isInputAvailable}/>
 
           <div className="col-lg-4 mb-4 ">
 
@@ -99,33 +175,17 @@ function Tools ()
         <fieldset className="form-group m-5">
 
           <div className="form-group row">
-            <label htmlFor="comp_rate">Quality</label>
-            <input type="range" name="rate" min="0" max="75" id="comp_rate"/>
+            <label htmlFor="comp_rate"><h6>Quality</h6></label>
+            <input type="range" name="rate" min="0" max="100"/>
           </div>
 
         </fieldset>
 
-        <div className="form-group row my-5">
-          <label htmlFor="width" className="col-5 col-form-label">Width</label>
-          <div className="col-7">
-            <input type="number" min="1" max="10000"  className="form-control" id="width" placeholder="Optional"/>
-          </div>
-        </div>
+              <SelectBox/>
 
-        <div className="form-group row my-5">
-          <label htmlFor="height" className="col-5 col-form-label">Height</label>
-          <div className="col-7">
-            <input type="number" min="1" max="10000"  className="form-control" id="height" placeholder="Optional"/>
-          </div>
-        </div>
-
-          <div className="form-group row m-5 text-center" >
-            <p>Status</p>
-            <label htmlFor="status"></label><textarea name="comp_ratio" id="status" cols="30" rows="1" readOnly ></textarea>
-          </div>
 
           <div className="form-group row m-5">
-          <button className="btn bg-primary" type="button">Reset</button>
+          <button className="btn bg-primary" onClick={reset} type="button">Reset</button>
          </div>
 
          <div className="form-group row m-5">
@@ -139,9 +199,9 @@ function Tools ()
 
   </div>
 
-          <Displayer imageArray={[inputArray,outputArray]}  />
+          <Displayer   />
 
-          <Displayer imageArray={[inputArray,outputArray]}/>
+          <Displayer />
 
           </div>
 

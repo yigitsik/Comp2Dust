@@ -3,113 +3,204 @@ const express = require('express');
 const multer = require('multer');
 const zipper = require("zip-local");
 const compress_images = require("compress-images");
+const {compress} = require('compress-images/promise');
+const bodyParser = require('body-parser');
 
 const app = express();
 const port = process.env.PORT || 5000;
+app.use(bodyParser.json(), bodyParser.urlencoded({
+  extended: true
+})); //This part lets you reach the html elements
 
- 
- app.use(express.static("compressedImages"));
- app.use(express.static("uploadedFiles"));
+
+app.use(express.static("compressedImages"));
+app.use(express.static("uploadedFiles"));
 
 
 // Set destination for Multer
 var storage = multer.diskStorage({
 
-  destination: function (req,file,callback)
-  {
+  destination: function (req, file, callback) {
     var dir = "./uploadedFiles";
 
-    if(!fs.existsSync(dir)){//Create a folder if not exists
+    if (!fs.existsSync(dir)) { //Create a folder if not exists
       fs.mkdirSync(dir);
     }
-    callback(null,dir);
+    callback(null, dir);
   },
 
-  filename: function (req, file, callback){
+  filename: function (req, file, callback) {
     callback(null, file.originalname);
   }
 
 });
 // Set destination for Multer
 
-var upload = multer({storage:storage}).array('file',12);  // Set size for upload
+var upload = multer({
+  storage: storage
+}).array('file', 12); // Set size for upload
 
 
 // This triggers on user input
-app.post("/upload",(req,res) => {
+app.post("/upload", (req, res) => {
 
   console.log(req.file)
   console.log("/upload")
 
   upload(req, res, function (err) {
     if (err instanceof multer.MulterError) {
-        return res.status(500).json(err)
+      return res.status(500).json(err)
     } else if (err) {
-        return res.status(500).json(err)
+      return res.status(500).json(err)
     }
-return res.status(200).send(req.file)
-})                                 
+    return res.status(200).send(req.file)
+  })
 });
 // This triggers on user input
 
 
 //This triggers on submit button clicked
-app.post("/compSubmit",(req,res) => {
+app.post("/compSubmit", (req, res) => {
 
   console.log("compSubmit!")
   console.log(req.body);
 
-INPUT_path_to_your_images = "./uploadedFiles/**/*.{jpg,JPG,jpeg,JPEG,png,svg,gif}";
-OUTPUT_path = "./compressedImages/compressed-";
+  let form = req.body;
 
-compress_images(INPUT_path_to_your_images, OUTPUT_path, { compress_force: false, statistic: true, autoupdate: true }, false,
-                { jpg: { engine: "mozjpeg", command: ["-quality", "60"] } },
-                { png: { engine: "pngquant", command: ["--quality=20-50", "-o"] } },
-                { svg: { engine: "svgo", command: "--multipass" } },
-                { gif: { engine: "gifsicle", command: ["--colors", "64", "--use-col=web"] } },
-  function (error, completed, statistic) {
-    console.log("-------------");
-    console.log(error);
-    console.log(completed);
-    console.log(statistic);
-    console.log("-------------");
-  }
-);
 
-const folder = './compressedImages';
+  const processImages = async (onProgress) => {
+    const result = await compress({
+      source: "./uploadedFiles/**/*.{jpg,JPG,jpeg,JPEG,png,svg,gif}",
+      destination: "./compressedImages/",
+      onProgress, 
+      enginesSetup: {
+        jpg: {
+          engine: form.JPG,
+          command: ["-quality", form.rate]
+        },
+        png: {
+          engine: form.PNG,
+          command: ["--quality=20-50", "-o"]
+        },
+        svg: {
+          engine: form.SVG,
+          command: "--multipass"
+        },
+        gif: {
+          engine: form.GIF,
+          command: ["--colors", "64", "--use-col=web"]
+        },
+      }
+    });
 
-let outputDir = new Array();
+    const {statistics, errors} = result;
+    // statistics - all processed images list
+    // errors - all errros happened list
+    if(errors)
+    {
+      res.send(errors)
+    }
+    else
+    {
+      res.send(statistics)
+    }
+  };
 
-fs.readdir(folder, (err, files) => {
-  files.forEach(file => {
-    outputDir.push(file)
-  });
+  processImages((error, statistic, completed) => {
+    if (error) {
+        console.log('Error happen while processing file');
+        console.log(error);
+        return;
+    }
+    
+    console.log('Sucefully processed file');
 
-  res.send(outputDir)
-
+    console.log(statistic)
 });
 
+ 
 
 });
 //This triggers on submit button clicked
 
 
-app.get("/fetchDef",function (req,res)
+app.get("/rename",function (req,res)
 {
 
-  const imageArray = new Array();
+  const files = fs.readdirSync("./compressedImages")
 
-  const dir = './client/public/compressedImages/'
-  const files = fs.readdirSync(dir)
-  
-  
-  for (const file of files) {
-    imageArray.push("/compressedImages/"+file)
+  for (let file of files) {
+
+  fs.renameSync("./compressedImages/"+file, './compressedImages/compressed-'+file, () => {
+  console.log("\nFile Renamed!\n");
+  });
+
   }
 
-  console.log(imageArray)
-  res.send(imageArray);
-    
+  res.send("renamed")
+  
+})
+
+
+app.get("/reset", function (req, res) {
+
+  const odir = './compressedImages/'
+  const idir = './uploadedFiles/'
+  const ifiles = fs.readdirSync(idir)
+  const ofiles = fs.readdirSync(odir)
+
+  for (let ofile of ofiles) {
+
+    ofile = './compressedImages/' + ofile;
+
+    fs.unlink(ofile, (err) => {
+      if (err) {
+        throw err;
+      }
+
+      console.log(ofile + " is deleted.");
+    });
+
+  }
+
+  for (let ifile of ifiles) {
+
+    ifile = './uploadedFiles/' + ifile;
+
+    fs.unlink(ifile, (err) => {
+      if (err) {
+        throw err;
+      }
+      console.log(ifile + " is deleted.");
+    });
+
+  }
+
+  res.send("succesfully deleted")
+
+})
+
+app.get("/deleteOutput", function (req, res) {
+
+  const odir = './compressedImages/'
+  const ofiles = fs.readdirSync(odir)
+
+  for (let ofile of ofiles) {
+
+    ofile = './compressedImages/' + ofile;
+
+    fs.unlink(ofile, (err) => {
+      if (err) {
+        throw err;
+      }
+
+      console.log(ofile + " is deleted.");
+    });
+
+  }
+
+  res.send("succesfully deleted")
+
 })
 
 
