@@ -96,14 +96,9 @@ app.post("/compSubmit", (req, res) => {
     const {statistics, errors} = result;
     // statistics - all processed images list
     // errors - all errros happened list
-    if(errors)
-    {
-      res.send(errors)
-    }
-    else
-    {
-      res.send(statistics)
-    }
+    
+      res.send(result)
+    
   };
 
   processImages((error, statistic, completed) => {
@@ -124,14 +119,15 @@ app.post("/compSubmit", (req, res) => {
 //This triggers on submit button clicked
 
 
-app.get("/rename",function (req,res)
+app.post("/rename",function (req,res)
 {
+
 
   const files = fs.readdirSync("./compressedImages")
 
   for (let file of files) {
 
-  fs.renameSync("./compressedImages/"+file, './compressedImages/compressed-'+file, () => {
+  fs.renameSync("./compressedImages/"+file, './compressedImages/compressed-'+req.body.compIndex+"-"+file, () => {
   console.log("\nFile Renamed!\n");
   });
 

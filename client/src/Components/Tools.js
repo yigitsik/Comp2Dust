@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from "react";
 import axios from "axios";
 import ImageContainer from "./ImageContainer";
-import Displayer from "./Displayer";
+import InputDisplayer from "./inputDisplayer";
 import $ from "jquery";
 import SelectBox from "./selectBox";
 
@@ -12,8 +12,10 @@ function Tools ()
   const [inputArray, setInputArray] = useState(null);
   const [inputFiles, setInputFiles] = useState(null);
   const [outputArray,setOutputArray] = useState(null)
+  const [compIndex,setCompIndex] = useState(0);
   const [isCompressedAvailable,setIsCompressedAvailable]=useState(false);
   const [isInputAvailable,setIsInputAvailable]=useState(false);
+  const [compressionStatistics,setCompressionStatistics]=useState(null);
 
 
   
@@ -47,8 +49,6 @@ function Tools ()
  }, [inputFiles]);
 
   function uploadHandler  (files) {
-
-    console.log('uploadHandler() from Tools, below is the input array')
     
     let fd = new FormData();
 
@@ -60,7 +60,6 @@ function Tools ()
 
       axios.post('/upload', fd)
       .then(function (response) {
-        console.log(response);
         const inputArr = new Array()
 
 Array.from(inputFiles.inputFiles).forEach((piece)=>{
@@ -85,18 +84,15 @@ Array.from(inputFiles.inputFiles).forEach((piece)=>{
 
     var formData = $("#optionsForm").serialize(); //This function gets the form data into an array 
 
-    console.log(formData)
-
     axios.get('/deleteOutput')
     .then(function (response) {
 
-     console.log("Deleted Outputs")
      setIsCompressedAvailable(false);
      
     axios.post('/compSubmit', formData)
     .then(function (response) {
  
-     console.log(response.data)
+     setCompressionStatistics(response.data.statistics)
      rename();
  
    }).catch(function (error) {
@@ -112,15 +108,16 @@ Array.from(inputFiles.inputFiles).forEach((piece)=>{
 
    function rename()
    {
-    axios.get("/rename")
+    axios.post("/rename", {compIndex})
     .then(function (response) {
 
       let array = new Array;
 
       for (let file of inputArray.inputArray) {
 
-     array.push("compressed-"+file)
-      
+     array.push("compressed-"+compIndex+"-"+file)
+     setCompIndex(compIndex+1)
+        
         }
 
      setOutputArray({outputArray: array})
@@ -199,9 +196,7 @@ Array.from(inputFiles.inputFiles).forEach((piece)=>{
 
   </div>
 
-          <Displayer   />
-
-          <Displayer />
+          {isInputAvailable===true?(<InputDisplayer imageArray={inputArray} outputArray={outputArray} checkOut={isCompressedAvailable} checkIn={isInputAvailable} statistics={compressionStatistics}/>):<div></div>}
 
           </div>
 
