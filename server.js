@@ -137,6 +137,16 @@ app.post("/rename",function (req,res)
   
 })
 
+app.get("/download", function (req, res) {
+
+console.log("download request")
+ 
+zipper.sync.zip("./compressedImages/").compress().save("pack.zip");
+
+res.download(__dirname + '/pack.zip', 'pack.zip');
+
+})
+
 
 app.get("/reset", function (req, res) {
 
@@ -195,9 +205,28 @@ app.get("/deleteOutput", function (req, res) {
 
   }
 
+  fs.unlink("./pack.zip", (err) => {
+    if (err) {
+      throw err;
+    }
+
+    console.log("Zip is deleted.")
+
+  })
+  
+
   res.send("succesfully deleted")
 
 })
 
+
+if (process.env.NODE_ENV === 'production') {
+  // Serve any static files
+  app.use(express.static(path.join(__dirname, 'client/build')));
+  // Handle React routing, return all requests to React app
+  app.get('*', function(req, res) {
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  });
+}
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

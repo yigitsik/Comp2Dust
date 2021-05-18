@@ -9,8 +9,8 @@ function ImageContainerSmall(props)
 
     return(
 
-      <div className="col mb-3  shadow-sm d-flex" id="dispCard" >
-      <img className="card-img" src={props.src} id="input_Image" alt="upload.jpg"/>
+      <div className="column col mb-3  shadow-sm d-flex" id="dispCard" >
+      <img className="card-img" id="imgDisp" src={props.src} alt="upload.jpg"/>
       </div>
    
 )

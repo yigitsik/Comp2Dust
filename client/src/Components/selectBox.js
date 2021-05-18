@@ -2,32 +2,13 @@ import React from 'react'
 
 class SelectBox extends React.Component{
 
-    // constructor(){
-    //     super();
-    //     this.state = {
-    //         city:null,
-    //     }
-
-    //     this.handleInputChange = this.handleInputChange.bind(this);
-    // }
-
-    // handleInputChange(event) {
-        
-    //     this.setState({
-    //         city: event.target.value
-    //     });
-        
-    // }
-
-    // submit(){
-    //     console.warn(this.state)
-    // }
+    
 
     render(){
         return(
             <div>
                 <div className="row">   
-                    <div className="col-md-6 offset-md-1">
+                    <div className="col-md-6 offset-md-1" id="optionBox">
                                                 
                            <div className="form-row">
                                 <div className="form-group  mb-3">

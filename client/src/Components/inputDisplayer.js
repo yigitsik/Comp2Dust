@@ -4,10 +4,28 @@ import "react-multi-carousel/lib/styles.css";
 import responsive from "./CarouselHelper";
 import ImageContainerSmall from "./ImageContainerSmall";
 import TableRow from "./TableRow";
+import axios from "axios";
 
 
 function InputDisplayer(props)
 {
+
+  console.log(props)
+
+  function download()
+  {
+
+    axios.get('/download')
+    .then(function (response) {
+
+      window.open("http://localhost:5000/download");
+
+   }).catch(function (error) {
+      console.log(error);
+    });
+
+  
+  }
 
   function createDef() {
 
@@ -61,6 +79,7 @@ function InputDisplayer(props)
           <div className="card my-3 shadow rounded">
             <h5 className="card-header d-flex align-items-center justify-content-between">
               <span>Input image </span>
+              {props.checkOut==false?null:<a onClick={download} download="pack.zip" className="btn btn-primary">download</a>}
             </h5>
 
             <div className="card-body" >

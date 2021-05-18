@@ -11,9 +11,7 @@ import ReactCompareImage from 'react-compare-image';
 function ImageContainer(props)
 {
 
-  // useEffect(() => console.log('prop changed'), [props]);
 
-  
   function createDef()
   {
     return(<ReactCompareImage id="compare"  leftImage="/images/upload.jpg" rightImage="/images/upload.jpg" />)
@@ -40,11 +38,10 @@ function ImageContainer(props)
    return(
 
         <div className="col-lg-8 mb-4 rounded" >
-        <div className="card shadow-lg" id="img-card">
+        <div className="rounded card shadow-lg" id="mainCard">
       <h4 className="card-header">Image Gallery</h4>
 
-      <div className="card-body h-100">
-
+      <div className="gallery">
       <Carousel responsive={responsiveMain} swipeable={false} draggable={false}>
       {
        (props.checkIn===false)&&(props.checkOut===false)?createDef():(props.imageArray.inputArray.map((data,index)=>createImage(data,index)))
@@ -52,7 +49,6 @@ function ImageContainer(props)
       </Carousel>
 
       </div>
-
       
         </div>
         </div>

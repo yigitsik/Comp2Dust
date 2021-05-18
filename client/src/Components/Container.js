@@ -8,14 +8,14 @@ function Container()
 
    return(  
 
-    <div className="container">
+   
+      <>
 
     <InfoBox/>
 
     <Tools/>
 
-    </div>
-
+      </>
    )
 
 }

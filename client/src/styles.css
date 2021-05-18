@@ -37,7 +37,53 @@ textarea
 
 #dispCard
 {
-   max-height: 300px;
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  height:275px;
 }
 
+#imgDisp
+{
 
+    max-height: 250px;
+}
+
+  .row {
+    display: flex;
+  }
+  
+  .column {
+    flex: 33.33%;
+    padding: 5px;
+  }
+
+#mainCard
+{
+    max-height: 700px;
+}
+
+.gallery
+{
+    align-items: center; 
+    height: 700px; 
+}
+
+#optionBox
+{
+
+   height: 350px;
+}
+
+img{
+    object-fit: contain;
+}
+  
+  
+body {  
+    zoom: 85%
+ }
+
+ .container .jumbotron {
+    border-radius: 10px ;
+}

@@ -7,8 +7,12 @@ function App() {
   return (
     <div>
 
+    <div className="container rounded">
+
       <Jumbotron/>
       <Container/>
+
+      </div>
       
     </div>
   );
