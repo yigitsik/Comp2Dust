@@ -205,16 +205,17 @@ app.get("/deleteOutput", function (req, res) {
 
   }
 
-  fs.unlink("./pack.zip", (err) => {
-    if (err) {
-      throw err;
-    }
-
-    console.log("Zip is deleted.")
-
-  })
+  if (fs.existsSync("./pack.zip")) {
   
-
+    fs.unlink("./pack.zip", (err) => {
+      if (err) {
+        throw err;
+      }
+  
+      console.log("Zip is deleted.")
+    })
+  }
+  
   res.send("succesfully deleted")
 
 })
