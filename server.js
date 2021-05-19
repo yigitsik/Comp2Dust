@@ -149,43 +149,43 @@ res.download(__dirname + '/pack.zip', 'pack.zip');
 })
 
 
-app.get("/reset", function (req, res) {
+// app.get("/reset", function (req, res) {
 
-  const odir = __dirname+'/compressedImages'
-  const idir = __dirname+'/uploadedFiles'
-  const ifiles = fs.readdirSync(idir)
-  const ofiles = fs.readdirSync(odir)
+//   const odir = __dirname+'/compressedImages'
+//   const idir = __dirname+'/uploadedFiles'
+//   const ifiles = fs.readdirSync(idir)
+//   const ofiles = fs.readdirSync(odir)
 
-  for (let ofile of ofiles) {
+//   for (let ofile of ofiles) {
 
-    ofile = __dirname+'/compressedImages' + ofile;
+//     ofile = __dirname+'/compressedImages' + ofile;
 
-    fs.unlink(ofile, (err) => {
-      if (err) {
-        throw err;
-      }
+//     fs.unlink(ofile, (err) => {
+//       if (err) {
+//         throw err;
+//       }
 
-      console.log(ofile+" is deleted.");
-    });
+//       console.log(ofile+" is deleted.");
+//     });
 
-  }
+//   }
 
-  for (let ifile of ifiles) {
+//   for (let ifile of ifiles) {
 
-    ifile = __dirname+'/uploadedFiles/' + ifile;
+//     ifile = __dirname+'/uploadedFiles/' + ifile;
 
-    fs.unlink(ifile, (err) => {
-      if (err) {
-        throw err;
-      }
-      console.log(ifile + " is deleted.");
-    });
+//     fs.unlink(ifile, (err) => {
+//       if (err) {
+//         throw err;
+//       }
+//       console.log(ifile + " is deleted.");
+//     });
 
-  }
+//   }
 
-  res.send("succesfully deleted")
+//   res.send("succesfully deleted")
 
-})
+// })
 
 app.get("/deleteOutput", function (req, res) {
 
