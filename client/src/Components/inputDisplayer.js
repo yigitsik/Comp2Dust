@@ -10,7 +10,6 @@ import axios from "axios";
 function InputDisplayer(props)
 {
 
-  console.log(props)
 
   function download()
   {
@@ -19,6 +18,12 @@ function InputDisplayer(props)
     .then(function (response) {
 
       window.open("http://localhost:5000/download");
+
+      if (process.env.NODE_ENV === 'production') {
+
+        window.open("https://comp2dust.herokuapp.com/download");
+
+      }
 
    }).catch(function (error) {
       console.log(error);
