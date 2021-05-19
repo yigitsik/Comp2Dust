@@ -18,6 +18,7 @@ app.use(express.static(path.join(__dirname, 'uploadedFiles')));
 app.use(express.static(path.join(__dirname, 'compressedImages')));
 
 
+
 // Set destination for Multer
 var storage = multer.diskStorage({
 
@@ -45,6 +46,8 @@ var upload = multer({
 // This triggers on user input
 app.post("/upload", (req, res) => {
 
+  console.log(req.headers['x-forwarded-for'])
+
   console.log(req.file)
   console.log("/upload")
 
@@ -58,7 +61,6 @@ app.post("/upload", (req, res) => {
   })
 });
 // This triggers on user input
-
 
 //This triggers on submit button clicked
 app.post("/compSubmit", (req, res) => {
@@ -114,11 +116,8 @@ app.post("/compSubmit", (req, res) => {
     console.log(statistic)
 });
 
- 
-
 });
 //This triggers on submit button clicked
-
 
 app.post("/rename",function (req,res)
 {
@@ -147,7 +146,6 @@ zipper.sync.zip(__dirname+"/compressedImages/").compress().save("pack.zip");
 res.download(__dirname + '/pack.zip', 'pack.zip');
 
 })
-
 
 app.get("/reset", function (req, res) {
 
