@@ -19,7 +19,7 @@ function InputDisplayer(props)
 
       // window.open("http://localhost:5000/download");
 
-        window.open("https://comp2dust.herokuapp.com/download");
+        window.open("/download");
 
    }).catch(function (error) {
       console.log(error);
