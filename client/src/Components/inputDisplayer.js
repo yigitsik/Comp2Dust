@@ -17,9 +17,16 @@ function InputDisplayer(props)
     axios.get('/download')
     .then(function (response) {
 
-      // window.open("http://localhost:5000/download");
 
-        window.open("/download");
+      if (process.env.NODE_ENV === 'production') {
+        window.open("https://comp2dust.herokuapp.com/download");
+      }
+      else
+      {
+        window.open("http://localhost:5000/download");
+      }
+
+        
 
    }).catch(function (error) {
       console.log(error);
