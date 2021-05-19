@@ -14,8 +14,8 @@ app.use(bodyParser.json(), bodyParser.urlencoded({
 })); //This part lets you reach the html elements
 
 
-app.use(express.static("compressedImages"));
-app.use(express.static("uploadedFiles"));
+app.use(express.static(path.join(__dirname, 'uploadedFiles')));
+app.use(express.static(path.join(__dirname, 'compressedImages')));
 
 
 // Set destination for Multer
