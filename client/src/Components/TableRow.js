@@ -5,6 +5,7 @@ import React from "react";
 function TableRow(props)
 {
 
+  console.log(props)
 
 let id = props.id+1;
 let statistics=props.parentProps.statistics;

@@ -5,6 +5,7 @@ const zipper = require("zip-local");
 const compress_images = require("compress-images");
 const {compress} = require('compress-images/promise');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -21,7 +22,7 @@ app.use(express.static("uploadedFiles"));
 var storage = multer.diskStorage({
 
   destination: function (req, file, callback) {
-    var dir = "./uploadedFiles";
+    var dir = __dirname+"/uploadedFiles";
 
     if (!fs.existsSync(dir)) { //Create a folder if not exists
       fs.mkdirSync(dir);
@@ -70,8 +71,8 @@ app.post("/compSubmit", (req, res) => {
 
   const processImages = async (onProgress) => {
     const result = await compress({
-      source: "./uploadedFiles/**/*.{jpg,JPG,jpeg,JPEG,png,svg,gif}",
-      destination: "./compressedImages/",
+      source: './uploadedFiles/**/*.{jpg,JPG,jpeg,JPEG,png,svg,gif}',
+      destination: './compressedImages/',
       onProgress, 
       enginesSetup: {
         jpg: {
@@ -123,11 +124,11 @@ app.post("/rename",function (req,res)
 {
 
 
-  const files = fs.readdirSync("./compressedImages")
+  const files = fs.readdirSync(__dirname+"/compressedImages")
 
   for (let file of files) {
 
-  fs.renameSync("./compressedImages/"+file, './compressedImages/compressed-'+req.body.compIndex+"-"+file, () => {
+  fs.renameSync(__dirname+"/compressedImages/"+file, __dirname+'/compressedImages/compressed-'+req.body.compIndex+"-"+file, () => {
   console.log("\nFile Renamed!\n");
   });
 
@@ -141,7 +142,7 @@ app.get("/download", function (req, res) {
 
 console.log("download request")
  
-zipper.sync.zip("./compressedImages/").compress().save("pack.zip");
+zipper.sync.zip(__dirname+"/compressedImages/").compress().save("pack.zip");
 
 res.download(__dirname + '/pack.zip', 'pack.zip');
 
@@ -150,28 +151,28 @@ res.download(__dirname + '/pack.zip', 'pack.zip');
 
 app.get("/reset", function (req, res) {
 
-  const odir = './compressedImages/'
-  const idir = './uploadedFiles/'
+  const odir = __dirname+'/compressedImages/'
+  const idir = __dirname+'/uploadedFiles/'
   const ifiles = fs.readdirSync(idir)
   const ofiles = fs.readdirSync(odir)
 
   for (let ofile of ofiles) {
 
-    ofile = './compressedImages/' + ofile;
+    ofile = __dirname+'/compressedImages/' + ofile;
 
     fs.unlink(ofile, (err) => {
       if (err) {
         throw err;
       }
 
-      console.log(ofile + " is deleted.");
+      console.log(ofile+" is deleted.");
     });
 
   }
 
   for (let ifile of ifiles) {
 
-    ifile = './uploadedFiles/' + ifile;
+    ifile = __dirname+'/uploadedFiles/' + ifile;
 
     fs.unlink(ifile, (err) => {
       if (err) {
@@ -188,12 +189,12 @@ app.get("/reset", function (req, res) {
 
 app.get("/deleteOutput", function (req, res) {
 
-  const odir = './compressedImages/'
+  const odir = __dirname+'/compressedImages/'
   const ofiles = fs.readdirSync(odir)
 
   for (let ofile of ofiles) {
 
-    ofile = './compressedImages/' + ofile;
+    ofile = __dirname+'/compressedImages/' + ofile;
 
     fs.unlink(ofile, (err) => {
       if (err) {
@@ -205,9 +206,9 @@ app.get("/deleteOutput", function (req, res) {
 
   }
 
-  if (fs.existsSync("./pack.zip")) {
+  if (fs.existsSync(__dirname+"/pack.zip")) {
   
-    fs.unlink("./pack.zip", (err) => {
+    fs.unlink(__dirname+"/pack.zip", (err) => {
       if (err) {
         throw err;
       }
