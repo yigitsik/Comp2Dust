@@ -132,7 +132,7 @@ app.post("/rename",function (req,res)
   console.log("\nFile Renamed!\n");
   });
 
-  }
+  } 
 
   res.send("renamed")
   
@@ -149,47 +149,56 @@ res.download(__dirname + '/pack.zip', 'pack.zip');
 })
 
 
-// app.get("/reset", function (req, res) {
+app.get("/reset", function (req, res) {
 
-//   const odir = __dirname+'/compressedImages'
-//   const idir = __dirname+'/uploadedFiles'
-//   const ifiles = fs.readdirSync(idir)
-//   const ofiles = fs.readdirSync(odir)
+  if (!fs.existsSync(__dirname+"/compressedImages")) { //Create a folder if not exists
+    fs.mkdirSync(__dirname+"/compressedImages");
+  }
+  if (!fs.existsSync(__dirname+"/uploadedImages")) { //Create a folder if not exists
+    fs.mkdirSync(__dirname+"/uploadedImages");
+  }
 
-//   for (let ofile of ofiles) {
+  const odir = __dirname+'/compressedImages'
+  const idir = __dirname+'/uploadedFiles'
+  const ifiles = fs.readdirSync(idir)
+  const ofiles = fs.readdirSync(odir)
 
-//     ofile = __dirname+'/compressedImages' + ofile;
+  for (let ofile of ofiles) {
 
-//     fs.unlink(ofile, (err) => {
-//       if (err) {
-//         throw err;
-//       }
+    ofile = __dirname+'/compressedImages/' + ofile;
 
-//       console.log(ofile+" is deleted.");
-//     });
+    fs.unlink(ofile, (err) => {
+      if (err) {
+        throw err;
+      }
 
-//   }
+      console.log(ofile+" is deleted.");
+    });
 
-//   for (let ifile of ifiles) {
+  }
 
-//     ifile = __dirname+'/uploadedFiles/' + ifile;
+  for (let ifile of ifiles) {
 
-//     fs.unlink(ifile, (err) => {
-//       if (err) {
-//         throw err;
-//       }
-//       console.log(ifile + " is deleted.");
-//     });
+    ifile = __dirname+'/uploadedFiles/' + ifile;
 
-//   }
+    fs.unlink(ifile, (err) => {
+      if (err) {
+        throw err;
+      }
+      console.log(ifile + " is deleted.");
+    });
 
-//   res.send("succesfully deleted")
+  }
 
-// })
+  res.send("succesfully deleted")
+
+})
 
 app.get("/deleteOutput", function (req, res) {
 
-  const odir = __dirname+'/compressedImages/'
+    
+
+  const odir = __dirname+'/compressedImages'
   const ofiles = fs.readdirSync(odir)
 
   for (let ofile of ofiles) {
