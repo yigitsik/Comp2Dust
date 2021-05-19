@@ -151,14 +151,14 @@ res.download(__dirname + '/pack.zip', 'pack.zip');
 
 app.get("/reset", function (req, res) {
 
-  const odir = __dirname+'/compressedImages/'
-  const idir = __dirname+'/uploadedFiles/'
+  const odir = __dirname+'/compressedImages'
+  const idir = __dirname+'/uploadedFiles'
   const ifiles = fs.readdirSync(idir)
   const ofiles = fs.readdirSync(odir)
 
   for (let ofile of ofiles) {
 
-    ofile = __dirname+'/compressedImages/' + ofile;
+    ofile = __dirname+'/compressedImages' + ofile;
 
     fs.unlink(ofile, (err) => {
       if (err) {
