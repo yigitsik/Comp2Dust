@@ -154,8 +154,8 @@ app.get("/reset", function (req, res) {
   if (!fs.existsSync(__dirname+"/compressedImages")) { //Create a folder if not exists
     fs.mkdirSync(__dirname+"/compressedImages");
   }
-  if (!fs.existsSync(__dirname+"/uploadedImages")) { //Create a folder if not exists
-    fs.mkdirSync(__dirname+"/uploadedImages");
+  if (!fs.existsSync(__dirname+"/uploadedFiles")) { //Create a folder if not exists
+    fs.mkdirSync(__dirname+"/uploadedFiles");
   }
 
   const odir = __dirname+'/compressedImages'
