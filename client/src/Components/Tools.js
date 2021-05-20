@@ -24,8 +24,7 @@ function Tools ()
     axios.get("/reset")
     .then(function (response) {
         
-     setInputArray({inputArray:["/images/upload.jpg"]})
-     setIsInputAvailable(false)
+    setIsInputAvailable(false)
 
     const inputArr = new Array()
     Array.from(e.target.files).forEach((piece)=>{
@@ -34,7 +33,6 @@ function Tools ()
 
     setIsCompressedAvailable(false)
     setInputFiles({inputFiles:e.target.files})
-    setIsInputAvailable(true)
     setCurrentSessionId(response.data)
 
     })
@@ -49,6 +47,7 @@ function Tools ()
  }, [inputFiles]);
 
   function uploadHandler  (files) {
+    
     
     let fd = new FormData();
 
@@ -100,7 +99,6 @@ Array.from(inputFiles.inputFiles).forEach((piece)=>{
       console.log(error);
     });
      
- 
    }).catch(function (error) {
       console.log(error);
     });
@@ -123,8 +121,6 @@ Array.from(inputFiles.inputFiles).forEach((piece)=>{
 
      setOutputArray({outputArray: array})
      setIsCompressedAvailable(true);
-
-     
                             
     })
     .catch(function (error) {

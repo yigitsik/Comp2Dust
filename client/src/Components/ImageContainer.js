@@ -20,20 +20,13 @@ function ImageContainer(props)
 
   function createImage(data,index) {    
     
+    console.log(data)
 
-    if((props.checkIn===false)&&(props.checkOut===false))
-    {
-      return(
-        <div className="card " id="mainCard">
-      <ReactCompareImage key={data}  leftImage="/images/upload.jpg" rightImage="/images/upload.jpg" />
-      </div>
-      )
-    }
-    else if((props.checkIn===true)&&(props.checkOut===false))
+    if((props.checkIn===true)&&(props.checkOut===false))
     { 
       return(
         <div className="card " id="mainCard">
-      <ReactCompareImage key={data} leftImage={props.sessionID+"/"+data} rightImage={"/images/black.jpg"}/>
+      <ReactCompareImage key={index} leftImage={props.sessionID+"/"+data} rightImage={props.sessionID+"/"+data}/>
       </div>)
     }
     else if((props.checkIn)&&(props.checkOut))
@@ -41,7 +34,7 @@ function ImageContainer(props)
       return(
         
       <div className="card " id="mainCard">
-      <ReactCompareImage key={data} leftImage={props.sessionID+"/"+data} rightImage={props.sessionID+"/"+props.outputArray.outputArray[index]} />
+      <ReactCompareImage key={index} leftImage={props.sessionID+"/"+data} rightImage={props.sessionID+"/"+props.outputArray.outputArray[index]} />
       </div>
       
       )
