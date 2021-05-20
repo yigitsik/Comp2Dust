@@ -19,7 +19,7 @@ app.use(express.static(path.join(__dirname, 'uploadedFiles')));
 app.use(express.static(path.join(__dirname, 'compressedImages')));
 
 app.use(session({
-  secret: 'Özel-Anahtar',
+  secret: 'nooseCallingMe',
   resave: false,
   saveUninitialized: true
 }));
@@ -28,7 +28,7 @@ app.use(session({
 var storage = multer.diskStorage({
 
   destination: function (req, file, callback) {
-    var dir = __dirname+"/uploadedFiles";
+    var dir = __dirname+"/uploadedFiles/"+req.sessionID;
 
     if (!fs.existsSync(dir)) { //Create a folder if not exists
       fs.mkdirSync(dir);
@@ -48,12 +48,9 @@ var upload = multer({
 }).array('file', 12); // Set size for upload
 
 
-
 // This triggers on user input
 app.post("/upload", (req, res) => {
 
-
-  console.log(req.file)
   console.log("/upload")
 
   upload(req, res, function (err) {
@@ -70,18 +67,15 @@ app.post("/upload", (req, res) => {
 //This triggers on submit button clicked
 app.post("/compSubmit", (req, res) => {
 
-  req.session.destroy();
-
   console.log("compSubmit!")
-  console.log(req.body);
 
   let form = req.body;
 
 
   const processImages = async (onProgress) => {
     const result = await compress({
-      source: './uploadedFiles/**/*.{jpg,JPG,jpeg,JPEG,png,svg,gif}',
-      destination: './compressedImages/',
+      source: "./uploadedFiles/"+req.sessionID+"/**/*.{jpg,JPG,jpeg,JPEG,png,svg,gif}",
+      destination: './compressedImages/'+req.sessionID+"/",
       onProgress, 
       enginesSetup: {
         jpg: {
@@ -129,12 +123,11 @@ app.post("/compSubmit", (req, res) => {
 app.post("/rename",function (req,res)
 {
 
-
-  const files = fs.readdirSync(__dirname+"/compressedImages")
+  const files = fs.readdirSync(__dirname+"/compressedImages/"+req.sessionID)
 
   for (let file of files) {
 
-  fs.renameSync(__dirname+"/compressedImages/"+file, __dirname+'/compressedImages/compressed-'+req.body.compIndex+"-"+file, () => {
+  fs.renameSync(__dirname+"/compressedImages/"+req.sessionID+"/"+file, __dirname+'/compressedImages/'+req.sessionID+'/compressed-'+req.body.compIndex+"-"+file, () => {
   console.log("\nFile Renamed!\n");
   });
 
@@ -148,81 +141,87 @@ app.get("/download", function (req, res) {
 
 console.log("download request")
 
-zipper.sync.zip(__dirname+"/compressedImages/").compress().save("pack.zip");
+zipper.sync.zip(__dirname+"/compressedImages/"+req.sessionID+"/").compress().save(req.sessionID+".zip");
 
-res.download(__dirname + '/pack.zip', 'pack.zip');
+res.download(__dirname +"/"+req.sessionID+'.zip','images.zip');
 
 })
 
 app.get("/reset", function (req, res) {
 
-  if (!fs.existsSync(__dirname+"/compressedImages")) { //Create a folder if not exists
-    fs.mkdirSync(__dirname+"/compressedImages");
-  }
-  if (!fs.existsSync(__dirname+"/uploadedFiles")) { //Create a folder if not exists
-    fs.mkdirSync(__dirname+"/uploadedFiles");
-  }
+  const odir = __dirname+'/compressedImages/'+req.sessionID
+  const idir = __dirname+'/uploadedFiles/'+req.sessionID
 
-  const odir = __dirname+'/compressedImages'
-  const idir = __dirname+'/uploadedFiles'
-  const ifiles = fs.readdirSync(idir)
-  const ofiles = fs.readdirSync(odir)
+  if (fs.existsSync(__dirname+"/compressedImages/"+req.sessionID)) { //Create a folder if not exists
 
-  for (let ofile of ofiles) {
+    const ofiles = fs.readdirSync(odir)
 
-    ofile = __dirname+'/compressedImages/' + ofile;
+    for (let ofile of ofiles) {
 
-    fs.unlink(ofile, (err) => {
-      if (err) {
-        throw err;
-      }
-
-      console.log(ofile+" is deleted.");
-    });
+      ofile = __dirname+'/compressedImages/'+req.sessionID+"/"+ ofile;
+  
+      fs.unlink(ofile, (err) => {
+        if (err) {
+          throw err;
+        }
+  
+        console.log(ofile+" is deleted.");
+      });
+  
+    }
 
   }
+  if (fs.existsSync(__dirname+"/uploadedFiles/"+req.sessionID)) { //Create a folder if not exists
 
-  for (let ifile of ifiles) {
+    const ifiles = fs.readdirSync(idir)
 
-    ifile = __dirname+'/uploadedFiles/' + ifile;
+    for (let ifile of ifiles) {
 
-    fs.unlink(ifile, (err) => {
-      if (err) {
-        throw err;
-      }
-      console.log(ifile + " is deleted.");
-    });
+      ifile = __dirname+'/uploadedFiles/'+req.sessionID+"/"+ ifile;
+  
+      fs.unlink(ifile, (err) => {
+        if (err) {
+          throw err;
+        }
+        console.log(ifile + " is deleted.");
+      });
+  
+    }
 
   }
 
-  res.send("succesfully deleted")
+  res.send(req.sessionID);
 
 })
 
 app.get("/deleteOutput", function (req, res) {
 
-    
+  const odir = __dirname+'/compressedImages/'+req.sessionID
 
-  const odir = __dirname+'/compressedImages'
-  const ofiles = fs.readdirSync(odir)
+  if (fs.existsSync(__dirname+"/compressedImages"+req.sessionID)) {
 
-  for (let ofile of ofiles) {
+    const ofiles = fs.readdirSync(odir)
 
-    ofile = __dirname+'/compressedImages/' + ofile;
+    for (let ofile of ofiles) {
 
-    fs.unlink(ofile, (err) => {
-      if (err) {
-        throw err;
-      }
-
-      console.log(ofile + " is deleted.");
-    });
+      ofile = __dirname+'/compressedImages/'+req.sessionID+"/"+ ofile;
+  
+      fs.unlink(ofile, (err) => {
+        if (err) {
+          throw err;
+        }
+  
+        console.log(ofile + " is deleted.");
+      });
+  
+    }
 
   }
 
-  if (fs.existsSync(__dirname+"/pack.zip")) {
+
+  if (fs.existsSync(__dirname+"/"+req.sessionID+".zip")) {
   
-    fs.unlink(__dirname+"/pack.zip", (err) => {
+    fs.unlink(__dirname+"/"+req.sessionID+".zip", (err) => {
       if (err) {
         throw err;
       }

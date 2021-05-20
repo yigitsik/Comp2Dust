@@ -10,7 +10,7 @@ import axios from "axios";
 function InputDisplayer(props)
 {
 
-
+  
   function download()
   {
 
@@ -54,7 +54,7 @@ function InputDisplayer(props)
     }
     else if(props.checkIn===true)
     {
-      return(<ImageContainerSmall key={data} src={data}/>)
+      return(<ImageContainerSmall key={data} src={props.sessionID+"/"+data}/>)
     }
    
   }
@@ -64,7 +64,7 @@ function InputDisplayer(props)
     
     if(props.checkOut===true)
     {
-      return(<ImageContainerSmall key={props.outputArray.outputArray[index]} src={props.outputArray.outputArray[index]}/>)
+      return(<ImageContainerSmall key={props.outputArray.outputArray[index]} src={props.sessionID+"/"+props.outputArray.outputArray[index]}/>)
     }
   }
 

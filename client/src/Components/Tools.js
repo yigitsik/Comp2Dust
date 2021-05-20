@@ -16,10 +16,9 @@ function Tools ()
   const [isCompressedAvailable,setIsCompressedAvailable]=useState(false);
   const [isInputAvailable,setIsInputAvailable]=useState(false);
   const [compressionStatistics,setCompressionStatistics]=useState(null);
+  const [currentSessionId,setCurrentSessionId]= useState(null)
 
 
-  
- 
   function upload  (e)  {
 
     axios.get("/reset")
@@ -33,9 +32,10 @@ function Tools ()
     inputArr.push(piece.name)
     })
 
-    setIsCompressedAvailable(false);
+    setIsCompressedAvailable(false)
     setInputFiles({inputFiles:e.target.files})
     setIsInputAvailable(true)
+    setCurrentSessionId(response.data)
 
     })
     .catch(function (error) {
@@ -160,7 +160,7 @@ Array.from(inputFiles.inputFiles).forEach((piece)=>{
 
          <div className="row">
 
-          <ImageContainer imageArray={inputArray} outputArray={outputArray} checkOut={isCompressedAvailable} checkIn={isInputAvailable}/>
+          <ImageContainer imageArray={inputArray} outputArray={outputArray} checkOut={isCompressedAvailable} checkIn={isInputAvailable} sessionID={currentSessionId}/>
 
           <div className="col-lg-4 mb-4 ">
 
@@ -197,7 +197,7 @@ Array.from(inputFiles.inputFiles).forEach((piece)=>{
 
   </div>
 
-          {isInputAvailable===true?(<InputDisplayer imageArray={inputArray} outputArray={outputArray} checkOut={isCompressedAvailable} checkIn={isInputAvailable} statistics={compressionStatistics}/>):<div></div>}
+          {isInputAvailable===true?(<InputDisplayer imageArray={inputArray} outputArray={outputArray} checkOut={isCompressedAvailable} checkIn={isInputAvailable} statistics={compressionStatistics} sessionID={currentSessionId} />):<div></div>}
 
           </div>
 

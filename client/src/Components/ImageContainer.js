@@ -5,30 +5,27 @@ import {responsiveMain} from "./CarouselHelper";
 import ReactCompareImage from 'react-compare-image';
 
 
-
-
-
 function ImageContainer(props)
 {
-
 
   function createDef()
   {
     return(
       <div className="card " id="mainCard">
-    <ReactCompareImage id="compare"  leftImage="/images/upload.jpg" rightImage="/images/upload.jpg" />
+    <ReactCompareImage key={"default"} leftImage="/images/upload.jpg" rightImage="/images/upload.jpg" />
     </div>
     )
   }
 
 
-  function createImage(data,index) {         
+  function createImage(data,index) {    
     
+
     if((props.checkIn===false)&&(props.checkOut===false))
     {
       return(
         <div className="card " id="mainCard">
-      <ReactCompareImage  leftImage="/images/upload.jpg" rightImage="/images/upload.jpg" />
+      <ReactCompareImage key={data}  leftImage="/images/upload.jpg" rightImage="/images/upload.jpg" />
       </div>
       )
     }
@@ -36,16 +33,15 @@ function ImageContainer(props)
     { 
       return(
         <div className="card " id="mainCard">
-      <ReactCompareImage key={data} leftImage={data} rightImage={"/images/black.jpg"}/>
+      <ReactCompareImage key={data} leftImage={props.sessionID+"/"+data} rightImage={"/images/black.jpg"}/>
       </div>)
     }
     else if((props.checkIn)&&(props.checkOut))
     { 
       return(
-      
         
       <div className="card " id="mainCard">
-      <ReactCompareImage key={data} leftImage={data} rightImage={props.outputArray.outputArray[index]} />
+      <ReactCompareImage key={data} leftImage={props.sessionID+"/"+data} rightImage={props.sessionID+"/"+props.outputArray.outputArray[index]} />
       </div>
       
       )
