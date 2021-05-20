@@ -18,6 +18,7 @@ function InputDisplayer(props)
     .then(function (response) {
 
 
+
       if (process.env.NODE_ENV === 'production') {
         window.open("https://comp2dust.herokuapp.com/download");
       }

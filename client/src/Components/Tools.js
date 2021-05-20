@@ -61,6 +61,7 @@ function Tools ()
       axios.post('/upload', fd)
       .then(function (response) {
         const inputArr = new Array()
+        
 
 Array.from(inputFiles.inputFiles).forEach((piece)=>{
 

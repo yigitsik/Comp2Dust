@@ -6,6 +6,7 @@ const compress_images = require("compress-images");
 const {compress} = require('compress-images/promise');
 const bodyParser = require('body-parser');
 const path = require('path');
+var session = require('express-session');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -17,7 +18,11 @@ app.use(bodyParser.json(), bodyParser.urlencoded({
 app.use(express.static(path.join(__dirname, 'uploadedFiles')));
 app.use(express.static(path.join(__dirname, 'compressedImages')));
 
-
+app.use(session({
+  secret: 'Özel-Anahtar',
+  resave: false,
+  saveUninitialized: true
+}));
 
 // Set destination for Multer
 var storage = multer.diskStorage({
@@ -43,10 +48,10 @@ var upload = multer({
 }).array('file', 12); // Set size for upload
 
 
+
 // This triggers on user input
 app.post("/upload", (req, res) => {
 
-  console.log(req.headers['x-forwarded-for'])
 
   console.log(req.file)
   console.log("/upload")
@@ -57,13 +62,15 @@ app.post("/upload", (req, res) => {
     } else if (err) {
       return res.status(500).json(err)
     }
-    return res.status(200).send(req.file)
+     return res.status(200).send(req.file)
   })
 });
 // This triggers on user input
 
 //This triggers on submit button clicked
 app.post("/compSubmit", (req, res) => {
+
+  req.session.destroy();
 
   console.log("compSubmit!")
   console.log(req.body);
@@ -140,7 +147,7 @@ app.post("/rename",function (req,res)
 app.get("/download", function (req, res) {
 
 console.log("download request")
- 
+
 zipper.sync.zip(__dirname+"/compressedImages/").compress().save("pack.zip");
 
 res.download(__dirname + '/pack.zip', 'pack.zip');

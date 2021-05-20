@@ -60,23 +60,17 @@ textarea
 
 #mainCard
 {
-    max-height: 700px;
+    
+   max-height: 700px;
+   align-items: center;
+
 }
 
-.gallery
-{
-    align-items: center; 
-    height: 700px; 
-}
 
 #optionBox
 {
 
-   height: 350px;
-}
-
-img{
-    object-fit: contain;
+   height: 100%;
 }
   
   
@@ -86,4 +80,10 @@ body {
 
  .container .jumbotron {
     border-radius: 10px ;
+}
+
+img
+{
+
+    padding: 5px;
 }
