@@ -30,6 +30,10 @@ var storage = multer.diskStorage({
   destination: function (req, file, callback) {
     var dir = __dirname+"/uploadedFiles/"+req.sessionID;
 
+    if (!fs.existsSync(__dirname+"/uploadedFiles")) { //Create a folder if not exists
+      fs.mkdirSync(__dirname+"/uploadedFiles");
+    }
+
     if (!fs.existsSync(dir)) { //Create a folder if not exists
       fs.mkdirSync(dir);
     }
@@ -50,6 +54,7 @@ var upload = multer({
 
 // This triggers on user input
 app.post("/upload", (req, res) => {
+
 
   console.log("/upload")
 
