@@ -3,6 +3,8 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import {responsiveMain} from "./CarouselHelper";
 import ReactCompareImage from 'react-compare-image';
+import {ProgressBar} from "react-bootstrap"
+
 
 
 function ImageContainer(props)
@@ -51,6 +53,16 @@ function ImageContainer(props)
        (props.checkIn===false)&&(props.checkOut===false)?createDef():(props.imageArray.inputArray.map((data,index)=>createImage(data,index)))
       }
       </Carousel>
+
+        {props.uploadProgress===0||props.uploadProgress===100?null:
+        
+        <div className="my-5">
+
+        <label htmlFor="props.uploadProgress"><h6>Upload Progress</h6></label>
+        <ProgressBar now={props.uploadProgress}></ProgressBar>
+
+        </div>}
+
       
         </div>
        

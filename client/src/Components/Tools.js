@@ -17,7 +17,9 @@ function Tools ()
   const [isInputAvailable,setIsInputAvailable]=useState(false);
   const [compressionStatistics,setCompressionStatistics]=useState(null);
   const [currentSessionId,setCurrentSessionId]= useState(null)
+  const [uploadProgress,setUploadProgress] = useState(null)
 
+  
 
   function upload  (e)  {
 
@@ -48,7 +50,6 @@ function Tools ()
 
   function uploadHandler  (files) {
     
-    
     let fd = new FormData();
 
     if(inputFiles!=null)
@@ -57,18 +58,29 @@ function Tools ()
         fd.append('file',element)
       }
 
-      axios.post('/upload', fd)
+      axios.post('/upload', fd ,{
+      
+        onUploadProgress: progressEvent =>
+        {
+          console.log('Upload Progress: '+ Math.round(progressEvent.loaded/progressEvent.total*100)+'%')
+          setUploadProgress(Math.round(progressEvent.loaded/progressEvent.total*100))
+        }
+
+      })
       .then(function (response) {
+
+        console.log(response)
+
         const inputArr = new Array()
         
 
-Array.from(inputFiles.inputFiles).forEach((piece)=>{
+        Array.from(inputFiles.inputFiles).forEach((piece)=>{
 
- inputArr.push(piece.name)
- }) 
+        inputArr.push(piece.name)
+        }) 
 
- setInputArray({inputArray: inputArr})
- setIsInputAvailable(true)
+       setInputArray({inputArray: inputArr})
+       setIsInputAvailable(true)
 
       })
       .catch(function (error) {
@@ -156,7 +168,7 @@ Array.from(inputFiles.inputFiles).forEach((piece)=>{
 
          <div className="row">
 
-          <ImageContainer imageArray={inputArray} outputArray={outputArray} checkOut={isCompressedAvailable} checkIn={isInputAvailable} sessionID={currentSessionId}/>
+          <ImageContainer imageArray={inputArray} outputArray={outputArray} checkOut={isCompressedAvailable} checkIn={isInputAvailable} sessionID={currentSessionId} uploadProgress={uploadProgress}/>
 
           <div className="col-lg-4 mb-4 ">
 
