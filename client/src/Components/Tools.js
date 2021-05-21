@@ -187,14 +187,16 @@ function Tools ()
 
         <div className="btn-group col-12 mb-3 ">
       <label className="btn btn-primary" title="select an image (jpeg, png)">
-      <input type="file" id="file" name="file" multiple="multiple" onChange={upload}/>
+       <h5>Upload</h5>
+      <input type="file"hidden id="file" name="file" multiple="multiple" onChange={upload}/>
+
       </label>
         </div>
 
         {
         !isInputAvailable?
         <div className=" alert alert-info text-center">
-        <strong>To get started use the input button to upload your JPG, PNG, GIF and SVG files</strong>
+        <strong>To get started use the upload button to upload your JPG, PNG, GIF and SVG files</strong>
         </div>:null
         }
 
