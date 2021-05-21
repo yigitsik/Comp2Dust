@@ -1,5 +1,4 @@
 import React from "react";
-import InfoBox from "./InfoBox";
 import Tools from "./Tools";
 
 
@@ -10,9 +9,7 @@ function Container()
 
    
       <>
-
-    <InfoBox/>
-
+      
     <Tools/>
 
       </>

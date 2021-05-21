@@ -18,6 +18,8 @@ function Tools ()
   const [compressionStatistics,setCompressionStatistics]=useState(null);
   const [currentSessionId,setCurrentSessionId]= useState(null)
   const [uploadProgress,setUploadProgress] = useState(null)
+  const [totalSize,setTotalSize] = useState(0);
+  const [totalOutputSize,setTotalOutputSize]= useState(0);
 
   
 
@@ -114,8 +116,31 @@ function Tools ()
    }).catch(function (error) {
       console.log(error);
     });
-    
+
+
    }
+
+
+
+   useEffect(() => {
+    
+    let sum=0;
+    let oSum=0;
+
+    console.log(compressionStatistics)
+
+    for( var element in compressionStatistics)
+    {
+      sum+=compressionStatistics[element].size_in/1024
+      oSum+=compressionStatistics[element].size_output/1024
+    }
+
+    setTotalSize(sum.toFixed(1))
+    setTotalOutputSize(oSum.toFixed(1))
+
+     
+ }, [compressionStatistics]);
+   
 
    function rename()
    {
@@ -160,15 +185,22 @@ function Tools ()
 
         <>
 
-        <div className="btn-group col-12 mb-5 ">
+        <div className="btn-group col-12 mb-3 ">
       <label className="btn btn-primary" title="select an image (jpeg, png)">
       <input type="file" id="file" name="file" multiple="multiple" onChange={upload}/>
       </label>
         </div>
 
+        {
+        !isInputAvailable?
+        <div className=" alert alert-info text-center">
+        <strong>To get started use the input button to upload your JPG, PNG, GIF and SVG files</strong>
+        </div>:null
+        }
+
          <div className="row">
 
-          <ImageContainer imageArray={inputArray} outputArray={outputArray} checkOut={isCompressedAvailable} checkIn={isInputAvailable} sessionID={currentSessionId} uploadProgress={uploadProgress}/>
+          <ImageContainer imageArray={inputArray} outputArray={outputArray} checkOut={isCompressedAvailable} checkIn={isInputAvailable} statistics={compressionStatistics} sessionID={currentSessionId} uploadProgress={uploadProgress} size={totalSize} oSize={totalOutputSize}/>
 
           <div className="col-lg-4 mb-4 ">
 

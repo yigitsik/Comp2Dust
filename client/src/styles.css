@@ -4,6 +4,23 @@
     height: 150px;
 }
 
+.jumbotron
+{
+  text-align: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header
+{
+  font-size: 75px;
+}
+
+footer
+{
+  height: 100px;
+}
+
 
 .navbar-brand {
     color: azure
@@ -73,10 +90,6 @@ textarea
    height: 100%;
 }
   
-  
-body {  
-    zoom: 85%
- }
 
  .container .jumbotron {
     border-radius: 10px ;

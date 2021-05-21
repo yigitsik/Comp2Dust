@@ -111,8 +111,9 @@ function InputDisplayer(props)
   <div>
                  
 
-<table className="table shadow-sm">
+<div >
 
+<table className="table shadow-sm">
 
 {
 (props.checkOut===false)?null:
@@ -138,6 +139,7 @@ function InputDisplayer(props)
 
 </table>
          
+         </div>
                 
                 </div>
               </div>

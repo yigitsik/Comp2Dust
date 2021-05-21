@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import {responsiveMain} from "./CarouselHelper";
@@ -7,8 +7,11 @@ import {ProgressBar} from "react-bootstrap"
 
 
 
-function ImageContainer(props)
+
+function ImageContainer(props)  
 {
+
+console.log(props)
 
   function createDef()
   {
@@ -22,8 +25,6 @@ function ImageContainer(props)
 
   function createImage(data,index) {    
     
-    console.log(data)
-
     if((props.checkIn===true)&&(props.checkOut===false))
     { 
       return(
@@ -54,7 +55,10 @@ function ImageContainer(props)
       }
       </Carousel>
 
-        {props.uploadProgress===0||props.uploadProgress===100?null:
+
+      <div>
+
+        {props.uploadProgress===null||props.uploadProgress===100?null:
         
         <div className="my-5">
 
@@ -63,7 +67,18 @@ function ImageContainer(props)
 
         </div>}
 
-      
+        </div>
+
+        {props.checkOut?
+        <div className=" alert alert-info text-center mt-3">
+        You have saved {(props.size-props.oSize).toFixed(1)} kb in total
+        </div>:null}
+        
+        <div>
+        
+
+        </div>
+
         </div>
        
         )
