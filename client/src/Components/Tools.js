@@ -9,6 +9,7 @@ import SelectBox from "./selectBox";
 function Tools () 
 {
 
+  // Initilize the States
   const [inputArray, setInputArray] = useState(null);
   const [inputFiles, setInputFiles] = useState(null);
   const [outputArray,setOutputArray] = useState(null)
@@ -20,24 +21,20 @@ function Tools ()
   const [uploadProgress,setUploadProgress] = useState(null)
   const [totalSize,setTotalSize] = useState(0);
   const [totalOutputSize,setTotalOutputSize]= useState(0);
+  // Initilize the States
 
   
 
+  //This triggers on upload
   function upload  (e)  {
 
-    axios.get("/reset")
+    axios.get("/reset")                       //Clear previous files for a fresh start
     .then(function (response) {
-        
+      
     setIsInputAvailable(false)
-
-    const inputArr = new Array()
-    Array.from(e.target.files).forEach((piece)=>{
-    inputArr.push(piece.name)
-    })
-
     setIsCompressedAvailable(false)
-    setInputFiles({inputFiles:e.target.files})
-    setCurrentSessionId(response.data)
+    setInputFiles({inputFiles:e.target.files})            //Assign file array to state
+    setCurrentSessionId(response.data)                  //Get unique session ID
 
     })
     .catch(function (error) {
@@ -45,43 +42,43 @@ function Tools ()
     });
 
   } 
+  //This triggers on upload
 
-  useEffect(() => {
+
+  useEffect(() => {                        //When inputFiles's state updated run uploadHandler()
     uploadHandler(inputFiles); 
  }, [inputFiles]);
 
+ //This function called when inputFiles state updated
   function uploadHandler  (files) {
     
     let fd = new FormData();
 
     if(inputFiles!=null)
     {
-      for ( var element of files.inputFiles) {
+      for ( var element of files.inputFiles) {            //push input files into an Array
         fd.append('file',element)
       }
 
-      axios.post('/upload', fd ,{
+      axios.post('/upload', fd ,{                          //Send input files to Multer
       
         onUploadProgress: progressEvent =>
         {
-          console.log('Upload Progress: '+ Math.round(progressEvent.loaded/progressEvent.total*100)+'%')
-          setUploadProgress(Math.round(progressEvent.loaded/progressEvent.total*100))
+          setUploadProgress(Math.round(progressEvent.loaded/progressEvent.total*100))           //Set upload status to a state
         }
 
       })
       .then(function (response) {
 
-        console.log(response)
 
         const inputArr = new Array()
         
-
-        Array.from(inputFiles.inputFiles).forEach((piece)=>{
-
+        Array.from(inputFiles.inputFiles).forEach((piece)=>{                      //Push input file names into an Array
+          
         inputArr.push(piece.name)
         }) 
 
-       setInputArray({inputArray: inputArr})
+       setInputArray({inputArray: inputArr})                            
        setIsInputAvailable(true)
 
       })
@@ -92,37 +89,37 @@ function Tools ()
     }
 
   }
+   //This function called when inputFiles state updated
 
 
+
+   //This function called when compress button clicked
   function compress(){
 
-    var formData = $("#optionsForm").serialize(); //This function gets the form data into an array 
+    var formData = $("#optionsForm").serialize();        //This function gets the form data into a readable format 
 
-    axios.get('/deleteOutput')
+    axios.get('/deleteOutput')                        //Clear compressed files for a fresh start
     .then(function (response) {
 
-     setIsCompressedAvailable(false);
+     setIsCompressedAvailable(false); 
      
-    axios.post('/compSubmit', formData)
+    axios.post('/compSubmit', formData )                          //Send form data from options box to compress                       
     .then(function (response) {
  
      setCompressionStatistics(response.data.statistics)
-     rename();
+     rename();                                                            //rename compressed files
  
    }).catch(function (error) {
       console.log(error);
     });
-     
    }).catch(function (error) {
       console.log(error);
     });
-
-
    }
+    //This function called when compress button clicked
 
 
-
-   useEffect(() => {
+   useEffect(() => {                                          // When compressionStatistics state updated run this function block
     
     let sum=0;
     let oSum=0;
@@ -131,21 +128,21 @@ function Tools ()
 
     for( var element in compressionStatistics)
     {
-      sum+=compressionStatistics[element].size_in/1024
-      oSum+=compressionStatistics[element].size_output/1024
+      sum+=compressionStatistics[element].size_in/1024                                    //Convert sizes from byte to kilobyte
+      oSum+=compressionStatistics[element].size_output/1024                               //Convert sizes from byte to kilobyte
     }
 
     setTotalSize(sum.toFixed(1))
     setTotalOutputSize(oSum.toFixed(1))
-
      
  }, [compressionStatistics]);
    
 
-   function rename()
+   //this function called right after files are compressed
+   function rename()                          
    {
-    axios.post("/rename", {compIndex})
-    .then(function (response) {
+    axios.post("/rename", {compIndex})                  //Renaming compressed files is neccessary because ReacJS components does not update themselves without change in files
+    .then(function (response) {                            
 
       let array = new Array;
 
@@ -164,22 +161,32 @@ function Tools ()
         console.log(error);
     });
    }
+   //this function called right after files are compressed
    
 
 
-   function reset()
+   //This function called when reset button clicked
+   function reset()                       
    {
 
-    axios.get("/reset")
+    axios.get("/buttonReset")
     .then(function (response) {
-      setIsInputAvailable(false)   
       setIsCompressedAvailable(false)               
     })
     .catch(function (error) {
         console.log(error);
     });
-
    }
+   //This function called when reset button clicked
+
+   //Prevent submit button on enter key
+   $('#optionsForm').keydown(function (e) {
+    if (e.keyCode == 13) {
+        e.preventDefault();
+        return false;
+    }
+   });
+   //Prevent submit button on enter key
 
       return(
 
@@ -188,48 +195,47 @@ function Tools ()
         <div className="btn-group col-12 mb-3 ">
       <label className="btn btn-primary" title="select an image (jpeg, png)">
        <h5>Upload</h5>
-      <input type="file"hidden id="file" name="file" multiple="multiple" onChange={upload}/>
-
+      <input type="file"hidden id="file" name="file" multiple="multiple" onChange={upload}/>        {/* Input Button */}
       </label>
         </div>
 
         {
         !isInputAvailable?
         <div className=" alert alert-info text-center">
-        <strong>To get started use the upload button to upload your JPG, PNG, GIF and SVG files</strong>
+        <strong>To get started use the upload button to upload up to 100 JPG, PNG, GIF, SVG files</strong>                     {/* Info Box */}
         </div>:null
         }
 
-         <div className="row">
+         <div className="row">             {/* Main Image Container */}
 
           <ImageContainer imageArray={inputArray} outputArray={outputArray} checkOut={isCompressedAvailable} checkIn={isInputAvailable} statistics={compressionStatistics} sessionID={currentSessionId} uploadProgress={uploadProgress} size={totalSize} oSize={totalOutputSize}/>
 
           <div className="col-lg-4 mb-4 ">
 
-    <form action="/compSubmit" id="optionsForm" method="post">
+    <form action="/compSubmit" id="optionsForm" method="post">                          {/* Form */}
 
     <div className="card h-100 shadow rounded">
       <h4 className="card-header">Options</h4>
       <div className="card-body">
 
-        <fieldset className="form-group m-5">
+        {/* <fieldset className="form-group m-5">
 
           <div className="form-group row">
             <label htmlFor="comp_rate"><h6>Quality</h6></label>
             <input type="range" name="rate" min="0" max="100"/>
           </div>
 
-        </fieldset>
+        </fieldset> */}
 
-              <SelectBox/>
+              <SelectBox/>                                                                         {/* Options Box */}
 
 
           <div className="form-group row m-5">
-          <button className="btn bg-primary" onClick={reset} type="button">Reset</button>
+          <button className="btn bg-primary" onClick={reset} type="button">Reset</button>                       {/* Reset button */}
          </div>
 
          <div className="form-group row m-5">
-          <button className="btn bg-primary" onClick={compress} type="button">Submit</button>
+          <button className="btn bg-primary" onClick={compress} type="button">Compress</button>                   {/* Compress button */}
          </div>
 
       </div>
@@ -237,7 +243,9 @@ function Tools ()
 
     </form>
 
-  </div>
+          {/* Displayer */}
+
+          </div>
 
           {isInputAvailable===true?(<InputDisplayer imageArray={inputArray} outputArray={outputArray} checkOut={isCompressedAvailable} checkIn={isInputAvailable} statistics={compressionStatistics} sessionID={currentSessionId} />):<div></div>}
 

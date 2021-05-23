@@ -10,7 +10,7 @@ import axios from "axios";
 function InputDisplayer(props)
 {
 
-  
+  //this function called when download button clicked
   function download()
   {
 
@@ -19,7 +19,7 @@ function InputDisplayer(props)
 
 
 
-      if (process.env.NODE_ENV === 'production') {
+      if (process.env.NODE_ENV === 'production') {                                 //This forces browser to download
         window.open("https://comp2dust.herokuapp.com/download");
       }
       else
@@ -35,7 +35,9 @@ function InputDisplayer(props)
 
   
   }
+  //this function called when download button clicked
 
+  //Call this on inital state
   function createDef() {
 
     return(
@@ -45,6 +47,7 @@ function InputDisplayer(props)
     )
     
   }
+  //Call this on inital state
 
   function createImage(data) {
     

@@ -2,27 +2,41 @@ const fs = require('fs');
 const express = require('express');
 const multer = require('multer');
 const zipper = require("zip-local");
-const compress_images = require("compress-images");
 const {compress} = require('compress-images/promise');
 const bodyParser = require('body-parser');
 const path = require('path');
 var session = require('express-session');
+const mongoose = require('mongoose');
 
-const app = express();
-const port = process.env.PORT || 5000;
-app.use(bodyParser.json(), bodyParser.urlencoded({
-  extended: true
-})); //This part lets you reach the html elements
+const app = express();              //set up express
+const port = process.env.PORT || 5000;  //set port according to local and cloud service environment
+app.use(bodyParser.json(), bodyParser.urlencoded({ extended: true})); //This part lets you reach the html elements
+
+mongoose.connect("mongodb+srv://admin-cvlt:grind_code66@cluster0.ovzyp.mongodb.net/CompLog", {useNewUrlParser: true, useUnifiedTopology: true});
+
+const imageSchema = new mongoose.Schema({
+
+  inputSize: String,
+  outputSize: String,
+  CompressionEngine: String,
+  compPercantage: Number,
+  status: Number
+  
+});
+
+const imgData = mongoose.model("imgData", imageSchema);
 
 
-app.use(express.static(path.join(__dirname, 'uploadedFiles')));
-app.use(express.static(path.join(__dirname, 'compressedImages')));
+app.use(express.static(path.join(__dirname, 'uploadedFiles')));                 //Serve static files to client
+app.use(express.static(path.join(__dirname, 'compressedImages')));              //Serve static files to client
 
+//Set-up session options
 app.use(session({
   secret: 'nooseCallingMe',
   resave: false,
   saveUninitialized: true
 }));
+//Set-up session options
 
 // Set destination for Multer
 var storage = multer.diskStorage({
@@ -47,34 +61,41 @@ var storage = multer.diskStorage({
 });
 // Set destination for Multer
 
+// Set upload destination and upload limit
 var upload = multer({
   storage: storage
-}).array('file', 12); // Set size for upload
+}).array('file', 120); 
+// Set upload destination and upload limit
 
 
 // This triggers on user input
 app.post("/upload", (req, res) => {
 
+  console.log(req.body)
 
-  console.log("/upload")
-
-  upload(req, res, function (err) {
+  upload(req, res, function (err) {                        //Multer Upload
     if (err instanceof multer.MulterError) {
       return res.status(500).json(err)
     } else if (err) {
       return res.status(500).json(err)
     }
-     return res.status(200).send(req.file)
+     return res.status(200).send(req.body)
   })
+
 });
 // This triggers on user input
 
 //This triggers on submit button clicked
 app.post("/compSubmit", (req, res) => {
 
-  console.log("compSubmit!")
-
   let form = req.body;
+
+  let commandJPG = req.body.commandJPG.split(" ");
+  let commandPNG = req.body.commandPNG.split(" ");
+  let commandSVG = req.body.commandSVG.split(" ");
+  let commandGIF = req.body.commandGIF.split(" ");
+
+  console.log(req.body)
 
 
   const processImages = async (onProgress) => {
@@ -85,19 +106,19 @@ app.post("/compSubmit", (req, res) => {
       enginesSetup: {
         jpg: {
           engine: form.JPG,
-          command: ["-quality", form.rate]
+           command: commandJPG
         },
         png: {
           engine: form.PNG,
-          command: ["--quality=20-50", "-o"]
+          command: commandPNG
         },
         svg: {
           engine: form.SVG,
-          command: "--multipass"
+          command: commandSVG
         },
         gif: {
           engine: form.GIF,
-          command: ["--colors", "64", "--use-col=web"]
+          command: commandGIF
         },
       }
     });
@@ -107,7 +128,9 @@ app.post("/compSubmit", (req, res) => {
     // errors - all errros happened list
     
       res.send(result)
-    
+
+      console.log(result)
+      
   };
 
   processImages((error, statistic, completed) => {
@@ -117,14 +140,12 @@ app.post("/compSubmit", (req, res) => {
         return;
     }
     
-    console.log('Sucefully processed file');
-
-    console.log(statistic)
 });
 
 });
 //This triggers on submit button clicked
 
+//This is called after compression is done
 app.post("/rename",function (req,res)
 {
 
@@ -141,7 +162,9 @@ app.post("/rename",function (req,res)
   res.send("renamed")
   
 })
+//This is called after compression is done
 
+//This is called when download button clicked
 app.get("/download", function (req, res) {
 
 console.log("download request")
@@ -151,7 +174,9 @@ zipper.sync.zip(__dirname+"/compressedImages/"+req.sessionID+"/").compress().sav
 res.download(__dirname +"/"+req.sessionID+'.zip','images.zip');
 
 })
+//This is called when download button clicked
 
+//This is called when reset button clicked
 app.get("/reset", function (req, res) {
 
   const odir = __dirname+'/compressedImages/'+req.sessionID
@@ -198,7 +223,39 @@ app.get("/reset", function (req, res) {
   res.send(req.sessionID);
 
 })
+//This is called when reset button clicked
 
+app.get("/buttonReset", function (req, res) {
+
+  console.log(req.sessionID)
+
+  const odir = __dirname+'/compressedImages/'+req.sessionID
+
+  if (fs.existsSync(__dirname+"/compressedImages/"+req.sessionID)) { //Create a folder if not exists
+
+    const ofiles = fs.readdirSync(odir)
+
+    for (let ofile of ofiles) {
+
+      ofile = __dirname+'/compressedImages/'+req.sessionID+"/"+ ofile;
+  
+      fs.unlink(ofile, (err) => {
+        if (err) {
+          throw err;
+        }
+  
+        console.log(ofile+" is deleted.");
+      });
+  
+    }
+
+  }
+  
+  res.send("deleted output")
+
+})
+
+//This is called before compression
 app.get("/deleteOutput", function (req, res) {
 
   const odir = __dirname+'/compressedImages/'+req.sessionID
@@ -220,9 +277,7 @@ app.get("/deleteOutput", function (req, res) {
       });
   
     }
-
   }
-
 
   if (fs.existsSync(__dirname+"/"+req.sessionID+".zip")) {
   
@@ -238,8 +293,10 @@ app.get("/deleteOutput", function (req, res) {
   res.send("succesfully deleted")
 
 })
+//This is called before compression
 
 
+//If app is on production environment this part is active
 if (process.env.NODE_ENV === 'production') {
   // Serve any static files
   app.use(express.static(path.join(__dirname, 'client/build')));
@@ -248,5 +305,6 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
   });
 }
+//If app is on production environment this part is active
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

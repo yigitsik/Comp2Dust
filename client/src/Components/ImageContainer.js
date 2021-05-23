@@ -11,8 +11,7 @@ import {ProgressBar} from "react-bootstrap"
 function ImageContainer(props)  
 {
 
-console.log(props)
-
+ 
   function createDef()
   {
     return(
@@ -24,6 +23,8 @@ console.log(props)
 
 
   function createImage(data,index) {    
+
+    console.log(data)
     
     if((props.checkIn===true)&&(props.checkOut===false))
     { 
@@ -69,13 +70,18 @@ console.log(props)
 
         </div>
 
-        {props.checkOut?
+        {props.checkOut?                                                             //InfoBoxes
         <div className=" alert alert-info text-center mt-3">
         You have saved {(props.size-props.oSize).toFixed(1)} kb in total
         </div>:null}
         
-        <div>
-        
+        <div>                                                
+                                                      
+        {props.checkOut===false&&props.checkIn===true?                                          //InfoBoxes
+        <div className=" alert alert-info text-center mt-3">
+        Choose your options then press compress button to compress your images
+        </div>:null
+        }
 
         </div>
 
