@@ -26,7 +26,6 @@ const imageSchema = new mongoose.Schema({
 
 const imgData = mongoose.model("imgData", imageSchema);
 
-
 app.use(express.static(path.join(__dirname, 'uploadedFiles')));                 //Serve static files to client
 app.use(express.static(path.join(__dirname, 'compressedImages')));              //Serve static files to client
 
@@ -61,19 +60,37 @@ var storage = multer.diskStorage({
 });
 // Set destination for Multer
 
+var textStorage = multer.diskStorage({
+
+  destination: function (req, file, callback) {
+    var dir = __dirname+"/";
+
+    callback(null, dir);
+  },
+
+  filename: function (req, file, callback) {
+    callback(null, file.originalname);
+  }
+});
+
 // Set upload destination and upload limit
-var upload = multer({
+var uploadImages = multer({
   storage: storage
 }).array('file', 120); 
 // Set upload destination and upload limit
+
+var uploadText = multer({
+  storage: textStorage
+}).array('file', 120); 
 
 
 // This triggers on user input
 app.post("/upload", (req, res) => {
 
   console.log(req.body)
+  
 
-  upload(req, res, function (err) {                        //Multer Upload
+  uploadImages(req, res, function (err) {                        //Multer Upload
     if (err instanceof multer.MulterError) {
       return res.status(500).json(err)
     } else if (err) {
@@ -81,6 +98,24 @@ app.post("/upload", (req, res) => {
     }
      return res.status(200).send(req.body)
   })
+
+});
+// This triggers on user input
+
+// This triggers on user input
+app.post("/uploadText", (req, res) => {
+
+  uploadText(req, res, function (err) {                        //Multer Upload
+    if (err instanceof multer.MulterError) {
+      return res.status(500).json(err)
+    } else if (err) {
+      return res.status(500).json(err)
+    }
+     return res.status(200).send(req.body)
+  })
+  
+
+  
 
 });
 // This triggers on user input
@@ -260,7 +295,7 @@ app.get("/deleteOutput", function (req, res) {
 
   const odir = __dirname+'/compressedImages/'+req.sessionID
 
-  if (fs.existsSync(__dirname+"/compressedImages"+req.sessionID)) {
+  if (fs.existsSync(__dirname+"/compressedImages/"+req.sessionID)) {
 
     const ofiles = fs.readdirSync(odir)
 

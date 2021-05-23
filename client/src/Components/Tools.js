@@ -124,8 +124,6 @@ function Tools ()
     let sum=0;
     let oSum=0;
 
-    console.log(compressionStatistics)
-
     for( var element in compressionStatistics)
     {
       sum+=compressionStatistics[element].size_in/1024                                    //Convert sizes from byte to kilobyte
@@ -195,7 +193,7 @@ function Tools ()
         <div className="btn-group col-12 mb-3 ">
       <label className="btn btn-primary" title="select an image (jpeg, png)">
        <h5>Upload</h5>
-      <input type="file"hidden id="file" name="file" multiple="multiple" onChange={upload}/>        {/* Input Button */}
+      <input type="file" hidden id="file" name="file" multiple="multiple" onChange={upload}/>        {/* Input Button */}
       </label>
         </div>
 

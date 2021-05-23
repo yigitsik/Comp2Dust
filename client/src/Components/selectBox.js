@@ -1,5 +1,6 @@
 import React from 'react'
 import $ from 'jquery'
+import Collapsible from './Collapsible'
 
 function SelectBox (){
 
@@ -38,9 +39,26 @@ function SelectBox (){
 
         return(
             <div>
-                <div className="row">   
+                <div >   
+
+                    <div className="alert alert-info  text-center my-1">
+
+                    Commands are for advanced users. You can check the Info button below too see manuals or you can leave it empty for default values.
+
+                    </div>
+                    
+                    <div className="m-3">
+                    <Collapsible/>
+                    </div>
+                
+                    
+
+                   
+
+
                     <div className="col-md-6 offset-md-1" id="optionBox">
-                                                
+                                        
+
                            <div className="form-row d-flex">
 
                                 <div className="form-group col-6 mb-3">
