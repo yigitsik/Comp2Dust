@@ -1,10 +1,9 @@
 import react, {useState,useEffect} from "react";
-import {Button,Collapse} from "react-bootstrap"
 import axios from "axios";
 
 
 
-function Collapsible() {
+function Info() {
 
     const [open, setOpen] = useState(false);
     const [file,setFile] = useState(false);
@@ -56,14 +55,6 @@ function Collapsible() {
   
     return (
       <div className="row">
-        <Button
-          onClick={() => setOpen(!open)}
-          aria-controls="example-fade-text"
-          aria-expanded={open}
-        >
-          Info
-        </Button>
-        <Collapse in={open}>
           <div id="example-fade-text">
           <div className="m-3">
           <ul className="list-group">
@@ -74,15 +65,24 @@ function Collapsible() {
           </label>
           </li>
           <li className="list-group-item"><a href="https://github.com/mozilla/mozjpeg/blob/master/usage.txt">Mozjpeg</a></li>
-          <li className="list-group-item">Morbi leo risus</li>
-          <li className="list-group-item">Porta ac consectetur ac</li>
-          <li className="list-group-item">Vestibulum at eros</li>
+          <li className="list-group-item"><a href="https://github.com/cloudflare/jpegtran/blob/master/usage.txt">Jpegtran</a></li>
+          <li className="list-group-item"><a href="https://developers.google.com/speed/webp/docs/cwebp">Webp</a></li>
+          <li className="list-group-item"><a href="https://github.com/google/guetzli">Guetzli</a></li>
+          <li className="list-group-item"><a href="https://github.com/imagemin/guetzli-bin">Guetzli-Bin</a></li>
+          <li className="list-group-item"><a href="https://github.com/imagemin/jpeg-recompress-bin">jpeg-Recompress</a></li>
+          <li className="list-group-item"><a href="https://github.com/imagemin/jpegoptim-bin">jpeg-Optim</a></li>
+          <li className="list-group-item"><a href="https://github.com/imagemin/pngquant-bin">png-quant</a></li>
+          <li className="list-group-item"><a href="https://github.com/imagemin/pngcrush-bin">png-crush</a></li>
+          <li className="list-group-item"><a href="https://www.npmjs.com/package/svgo">svgo</a></li>
+          <li className="list-group-item"><a href="https://github.com/imagemin/gifsicle-bin">gifsicle</a></li>
+          <li className="list-group-item"><a href="https://www.npmjs.com/package/giflossy">gif-lossy</a></li>
+
+
           </ul>
           </div>
-          </div>
-        </Collapse>
+          </div>  
       </div>
     );
   }
   
- export default Collapsible;
+ export default Info;

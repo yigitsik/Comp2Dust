@@ -10,13 +10,13 @@ import axios from "axios";
 function InputDisplayer(props)
 {
 
+
   //this function called when download button clicked
   function download()
   {
 
     axios.get('/download')
     .then(function (response) {
-
 
 
       if (process.env.NODE_ENV === 'production') {                                 //This forces browser to download
@@ -71,6 +71,13 @@ function InputDisplayer(props)
     }
   }
 
+  function statusError()
+  {
+    return(<div className=" alert alert-info text-center col-12">
+    <strong>There was an error</strong>                     {/* Info Box */}
+    </div>)
+  }
+
   function createTable(value,id)
   {
     if(props.checkOut===true)
@@ -107,7 +114,7 @@ function InputDisplayer(props)
 
               <Carousel responsive={responsive}>
 
-              {(props.checkIn===false)&&(props.checkOut===false)?null:(props.imageArray.inputArray.map((data,index)=>createOutputImage(data,index)))}
+              {(props.checkIn===false)&&(props.checkOut===false)||props.error?statusError():(props.imageArray.inputArray.map((data,index)=>createOutputImage(data,index)))}
           
               </Carousel>
               
@@ -119,7 +126,7 @@ function InputDisplayer(props)
 <table className="table shadow-sm">
 
 {
-(props.checkOut===false)?null:
+(props.checkOut===false||props.error)?null:
 
 <thead className="thead-dark">
 <tr>
@@ -136,7 +143,7 @@ function InputDisplayer(props)
 
 <tbody>
 
-  {(props.checkOut===false)?null:(props.imageArray.inputArray.map((value,id)=>createTable(value,id)))}
+  {(props.checkOut===false||props.error)?null:(props.imageArray.inputArray.map((value,id)=>createTable(value,id)))}
 
  </tbody>
 

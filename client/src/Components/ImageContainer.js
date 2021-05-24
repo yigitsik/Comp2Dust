@@ -3,14 +3,14 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import {responsiveMain} from "./CarouselHelper";
 import ReactCompareImage from 'react-compare-image';
-import {ProgressBar} from "react-bootstrap"
+import {ProgressBar} from "react-bootstrap";
+import axios from "axios";
 
 
 
 
 function ImageContainer(props)  
 {
-
  
   function createDef()
   {
@@ -21,16 +21,14 @@ function ImageContainer(props)
     )
   }
 
-
   function createImage(data,index) {    
 
-    console.log(data)
-    
-    if((props.checkIn===true)&&(props.checkOut===false))
+
+    if((props.checkIn===true)&&(props.checkOut===false)||props.errorStatus)
     { 
       return(
         <div className="card " id="mainCard">
-      <ReactCompareImage key={index} leftImage={props.sessionID+"/"+data} rightImage={props.sessionID+"/"+data}/>
+      <ReactCompareImage key={index} leftImage={props.sessionID+"/"+data}  rightImage={props.sessionID+"/"+data}/>
       </div>)
     }
     else if((props.checkIn)&&(props.checkOut))
@@ -43,6 +41,27 @@ function ImageContainer(props)
       
       )
     }
+
+  }
+
+  function download()
+  {
+
+    axios.get('/download/log')
+    .then(function (response) {
+
+
+      if (process.env.NODE_ENV === 'production') {                                 //This forces browser to download
+        window.open("https://comp2dust.herokuapp.com/download/log");
+      }
+      else
+      {
+        window.open("http://localhost:5000/download/log");
+      }
+
+   }).catch(function (error) {
+      console.log(error);
+    });
 
   }
 
@@ -70,20 +89,37 @@ function ImageContainer(props)
 
         </div>
 
-        {props.checkOut?                                                             //InfoBoxes
+        {props.checkOut&&props.errorStatus==false?                                                             //InfoBoxes
         <div className=" alert alert-info text-center mt-3">
         You have saved {(props.size-props.oSize).toFixed(1)} kb in total
         </div>:null}
         
-        <div>                                                
+        <div> 
+
+        <div>
+
+        {props.errorStatus?                                                             //InfoBoxes
+        <div className=" alert alert-info text-center mt-3">
+        <p>There was an error, You can download the error log to get a clue</p>
+        <a onClick={download} download="log" className="btn btn-primary">download</a>
+        </div>:null}
+
+        </div>                                               
                                                       
-        {props.checkOut===false&&props.checkIn===true?                                          //InfoBoxes
+        {props.checkOut===false&&props.checkIn===true&&props.isLoading===false?                                          //InfoBoxes
         <div className=" alert alert-info text-center mt-3">
         Choose your options then press compress button to compress your images
         </div>:null
         }
 
         </div>
+
+        {
+        props.loadingStatus?                                          //InfoBoxes
+        <div className=" alert alert-info text-center mt-3">
+        Please wait... Compressing Images
+        </div>:null
+        }
 
         </div>
        

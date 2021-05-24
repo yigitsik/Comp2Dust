@@ -1,38 +1,14 @@
 import React from 'react'
+import {Card,Accordion,Button} from 'react-bootstrap'
 import $ from 'jquery'
-import Collapsible from './Collapsible'
+import Info from './Info'
 
 function SelectBox (){
 
     function handleChange(e)
     {
 
-        console.log($(e.target).val())
-
-        // console.log(e.target.name)
-
-        // console.log($("#commandJpg").text())
-
-        // $("#commandJpg").value = $("#commandJpg").text() ;
-
-        // console.log($("#commandJpg").val())
-        // if($(e.target).val()=="mozjpeg")
-        // {
-        //  commands = ["-grayscale"]
-        // }
-
-        
-        // var kits = ["Lego WeDo", "Force & Motion", "Bernoulli's Lift"];
-        // var starLabs = ["Constellations", "Starfields", "Moon"];
-
-        // for (var i = 0; i < commands.length; i++) {
-
-        // $("#jpgCommand option")[i].innerHTML= kits[i];
-        // let name = $("#jpgCommand option")[i].innerHTML= commands[i];
-        // $("#jpgCommand option")[i].value = name;
-          
-        // }
-        
+        // console.log($(e.target).val())
         
     }
     
@@ -41,21 +17,37 @@ function SelectBox (){
             <div>
                 <div >   
 
-                    <div className="alert alert-info  text-center my-1">
+                <Accordion defaultActiveKey="0">
+                    <Card>
+                        <Card.Header>
+                        <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                        Info & Custom Configurations
+                        </Accordion.Toggle>
+                        </Card.Header>
+                        <Accordion.Collapse eventKey="1">
+                        <Card.Body>
+                        
+                        <Info/>
 
-                    Commands are for advanced users. You can check the Info button below too see manuals or you can leave it empty for default values.
-
-                    </div>
+                        </Card.Body>
+                        </Accordion.Collapse>
+                    </Card>
                     
-                    <div className="m-3">
-                    <Collapsible/>
+                    <Card>
+                        <Card.Header>
+                        <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                            Options
+                        </Accordion.Toggle>
+                        </Card.Header>
+                        <Accordion.Collapse eventKey="0">
+                        <Card.Body>
+                        
+                        <div className="alert alert-info  text-center my-1">
+
+                    Commands are for advanced users. You can check the Info button above too see manuals or you can leave it empty for default values.
+
                     </div>
                 
-                    
-
-                   
-
-
                     <div className="col-md-6 offset-md-1" id="optionBox">
                                         
 
@@ -132,6 +124,13 @@ function SelectBox (){
                             </div>
                         
                     </div>
+                        
+                        </Card.Body>
+                        </Accordion.Collapse>
+                    </Card>
+                    </Accordion>
+
+                    
                 </div>
             </div>
         )  

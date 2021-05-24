@@ -21,6 +21,8 @@ function Tools ()
   const [uploadProgress,setUploadProgress] = useState(null)
   const [totalSize,setTotalSize] = useState(0);
   const [totalOutputSize,setTotalOutputSize]= useState(0);
+  const [isLoading,setIsLoading] = useState(false);
+  const [errorExist,setErrorExist] = useState(false);
   // Initilize the States
 
   
@@ -35,6 +37,7 @@ function Tools ()
     setIsCompressedAvailable(false)
     setInputFiles({inputFiles:e.target.files})            //Assign file array to state
     setCurrentSessionId(response.data)                  //Get unique session ID
+    setErrorExist(false)
 
     })
     .catch(function (error) {
@@ -98,6 +101,9 @@ function Tools ()
 
     var formData = $("#optionsForm").serialize();        //This function gets the form data into a readable format 
 
+    setErrorExist(false);
+    setIsLoading(true);
+
     axios.get('/deleteOutput')                        //Clear compressed files for a fresh start
     .then(function (response) {
 
@@ -108,6 +114,14 @@ function Tools ()
  
      setCompressionStatistics(response.data.statistics)
      rename();                                                            //rename compressed files
+     setIsLoading(false)
+     
+     if(response.data.errors[0]!=null)
+     {
+      setErrorExist(true)
+      setIsCompressedAvailable(false)
+     }
+
  
    }).catch(function (error) {
       console.log(error);
@@ -143,12 +157,13 @@ function Tools ()
     .then(function (response) {                            
 
       let array = new Array;
+      let inArray= new Array;
 
       for (let file of inputArray.inputArray) {
-
-     array.push("compressed-"+compIndex+"-"+file)
-     setCompIndex(compIndex+1)
-        
+     
+      array.push("compressed-"+compIndex+"-"+file)
+      setCompIndex(compIndex+1)
+    
         }
 
      setOutputArray({outputArray: array})
@@ -161,21 +176,6 @@ function Tools ()
    }
    //this function called right after files are compressed
    
-
-
-   //This function called when reset button clicked
-   function reset()                       
-   {
-
-    axios.get("/buttonReset")
-    .then(function (response) {
-      setIsCompressedAvailable(false)               
-    })
-    .catch(function (error) {
-        console.log(error);
-    });
-   }
-   //This function called when reset button clicked
 
    //Prevent submit button on enter key
    $('#optionsForm').keydown(function (e) {
@@ -206,7 +206,7 @@ function Tools ()
 
          <div className="row">             {/* Main Image Container */}
 
-          <ImageContainer imageArray={inputArray} outputArray={outputArray} checkOut={isCompressedAvailable} checkIn={isInputAvailable} statistics={compressionStatistics} sessionID={currentSessionId} uploadProgress={uploadProgress} size={totalSize} oSize={totalOutputSize}/>
+          <ImageContainer imageArray={inputArray} outputArray={outputArray} checkOut={isCompressedAvailable} checkIn={isInputAvailable} statistics={compressionStatistics} sessionID={currentSessionId} uploadProgress={uploadProgress} size={totalSize} oSize={totalOutputSize} loadingStatus={isLoading} errorStatus={errorExist}/>
 
           <div className="col-lg-4 mb-4 ">
 
@@ -228,9 +228,6 @@ function Tools ()
               <SelectBox/>                                                                         {/* Options Box */}
 
 
-          <div className="form-group row m-5">
-          <button className="btn bg-primary" onClick={reset} type="button">Reset</button>                       {/* Reset button */}
-         </div>
 
          <div className="form-group row m-5">
           <button className="btn bg-primary" onClick={compress} type="button">Compress</button>                   {/* Compress button */}
@@ -245,7 +242,7 @@ function Tools ()
 
           </div>
 
-          {isInputAvailable===true?(<InputDisplayer imageArray={inputArray} outputArray={outputArray} checkOut={isCompressedAvailable} checkIn={isInputAvailable} statistics={compressionStatistics} sessionID={currentSessionId} />):<div></div>}
+          {isInputAvailable===true?(<InputDisplayer imageArray={inputArray} outputArray={outputArray} checkOut={isCompressedAvailable} checkIn={isInputAvailable} statistics={compressionStatistics} sessionID={currentSessionId} error={errorExist}/>):<div></div>}
 
           </div>
 

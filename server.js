@@ -3,6 +3,7 @@ const express = require('express');
 const multer = require('multer');
 const zipper = require("zip-local");
 const {compress} = require('compress-images/promise');
+const compress_images = require("compress-images");
 const bodyParser = require('body-parser');
 const path = require('path');
 var session = require('express-session');
@@ -114,9 +115,6 @@ app.post("/uploadText", (req, res) => {
      return res.status(200).send(req.body)
   })
   
-
-  
-
 });
 // This triggers on user input
 
@@ -124,13 +122,136 @@ app.post("/uploadText", (req, res) => {
 app.post("/compSubmit", (req, res) => {
 
   let form = req.body;
+  let commandJPG;
+  let commandPNG;
 
-  let commandJPG = req.body.commandJPG.split(" ");
-  let commandPNG = req.body.commandPNG.split(" ");
-  let commandSVG = req.body.commandSVG.split(" ");
-  let commandGIF = req.body.commandGIF.split(" ");
+  console.log( )
 
-  console.log(req.body)
+  if(form.JPG== "mozjpeg" && req.body.commandJPG==="")
+  {
+    commandJPG = ["-quality", "60"];
+  }
+  else if(form.JPG== "mozjpeg"&& req.body.commandJPG!=="")
+  {
+    commandJPG = req.body.commandJPG.split(" ");
+  }
+
+  if(form.JPG== "jpegtran" && req.body.commandJPG==="")
+  {
+    commandJPG = ["-trim", "-progressive", "-copy", "none", "-optimize"];
+  }
+  else if(form.JPG== "jpegtran"&& req.body.commandJPG!=="")
+  {
+    commandJPG = req.body.commandJPG.split(" ");
+  }
+
+  if(form.JPG== "webp" && req.body.commandJPG==="")
+  {
+    commandJPG = ['-q', '60'];
+  }
+  else if(form.JPG== "webp"&& req.body.commandJPG!=="")
+  {
+    commandJPG = req.body.commandJPG.split(" ");
+  }
+
+  if(form.JPG== "guetzli" && req.body.commandJPG==="")
+  {
+    commandJPG = ['--quality', '84'];
+  }
+  else if(form.JPG== "guetzli"&& req.body.commandJPG!=="")
+  {
+    commandJPG = req.body.commandJPG.split(" ");
+  }
+
+  if(form.JPG== "jpegRecompress" && req.body.commandJPG==="")
+  {
+    commandJPG = ['--quality', 'high', '--min', '60'];
+  }
+  else if(form.JPG== "jpegRecompress" && req.body.commandJPG!=="")
+  {
+    commandJPG = req.body.commandJPG.split(" ");
+  }
+
+  if(form.JPG== "jpegoptim" && req.body.commandJPG==="")
+  {
+    commandJPG = ['--all-progressive', '-d'];
+  }
+  else if(form.JPG== "jpegoptim" && req.body.commandJPG!=="")
+  {
+    commandJPG = req.body.commandJPG.split(" ");
+  }
+
+  if(form.PNG== "pngquant" && req.body.commandPNG==="")
+  {
+    commandPNG = ['--quality=20-50', '-o'];
+  }
+  else if(form.PNG== "pngquant" && req.body.commandPNG!=="")
+  {
+    commandPNG = req.body.commandPNG.split(" ");
+  }
+
+  if(form.PNG== "optipng" && req.body.commandPNG==="")
+  {
+    commandPNG = ['-o4'];
+  }
+  else if(form.PNG== "optipng" && req.body.commandPNG!=="")
+  {
+    commandPNG = req.body.commandPNG.split(" ");
+  }
+
+  if(form.PNG== "pngout" && req.body.commandPNG==="")
+  {
+     commandPNG = ['/b#'];
+  }
+  else if(form.PNG== "pngout" && req.body.commandPNG!=="")
+  {
+    commandPNG = req.body.commandPNG.split(" ");
+  }
+
+  if(form.PNG== "webp" && req.body.commandPNG==="")
+  {
+     commandPNG = ['-q', '60'];
+  }
+  else if(form.PNG== "webp" && req.body.commandPNG!=="")
+  {
+    commandPNG = req.body.commandPNG.split(" ");
+  }
+
+  if(form.PNG== "pngcrush" && req.body.commandPNG==="")
+  {
+     commandPNG = ['-reduce', '-brute'];
+  }
+  else if(form.PNG== "pngcrush" && req.body.commandPNG!=="")
+  {
+    commandPNG = req.body.commandPNG.split(" ");
+  }
+
+  if(form.SVG== "svgo" && req.body.commandSVG==="")
+  {
+     commandSVG = ["--multipass"];
+  }
+  else if(form.SVG== "svgo" && req.body.commandSVG!=="")
+  {
+    commandSVG = req.body.commandSVG.split(" ");
+  }
+
+  if(form.GIF== "gifsicle" && req.body.commandGIF==="")
+  {
+     commandGIF = ['--colors', '64', '--use-col=web'];
+  }
+  else if(form.GIF== "gifsicle" && req.body.commandGIF!=="")
+  {
+    commandGIF = req.body.commandGIF.split(" ");
+  }
+
+  if(form.GIF== "gif2webp" && req.body.commandGIF==="")
+  {
+     commandGIF = ['-f', '80', '-mixed', '-q', '30', '-m', '2'];
+  }
+  else if(form.GIF== "gif2webp" && req.body.commandGIF!=="")
+  {
+    commandGIF = req.body.commandGIF.split(" ");
+  }
 
 
   const processImages = async (onProgress) => {
@@ -138,6 +259,7 @@ app.post("/compSubmit", (req, res) => {
       source: "./uploadedFiles/"+req.sessionID+"/**/*.{jpg,JPG,jpeg,JPEG,png,svg,gif}",
       destination: './compressedImages/'+req.sessionID+"/",
       onProgress, 
+      params:{pathLog:"./log/"+req.sessionID+"/"},
       enginesSetup: {
         jpg: {
           engine: form.JPG,
@@ -154,8 +276,9 @@ app.post("/compSubmit", (req, res) => {
         gif: {
           engine: form.GIF,
           command: commandGIF
-        },
-      }
+        }
+      },
+       pathLog:"./",
     });
 
     const {statistics, errors} = result;
@@ -163,8 +286,6 @@ app.post("/compSubmit", (req, res) => {
     // errors - all errros happened list
     
       res.send(result)
-
-      console.log(result)
       
   };
 
@@ -186,7 +307,11 @@ app.post("/rename",function (req,res)
 
   const files = fs.readdirSync(__dirname+"/compressedImages/"+req.sessionID)
 
+  let outputArray = new Array;
+
   for (let file of files) {
+
+    outputArray.push(file)
 
   fs.renameSync(__dirname+"/compressedImages/"+req.sessionID+"/"+file, __dirname+'/compressedImages/'+req.sessionID+'/compressed-'+req.body.compIndex+"-"+file, () => {
   console.log("\nFile Renamed!\n");
@@ -194,7 +319,7 @@ app.post("/rename",function (req,res)
 
   } 
 
-  res.send("renamed")
+  res.send(outputArray)
   
 })
 //This is called after compression is done
@@ -210,6 +335,14 @@ res.download(__dirname +"/"+req.sessionID+'.zip','images.zip');
 
 })
 //This is called when download button clicked
+
+app.get("/download/log", function (req, res) {
+  
+  zipper.sync.zip(__dirname+"/log/"+req.sessionID+"/").compress().save(req.sessionID+"log"+".zip");
+  
+  res.download(__dirname +"/"+req.sessionID+"log"+'.zip','log.zip');
+  
+  })
 
 //This is called when reset button clicked
 app.get("/reset", function (req, res) {
@@ -260,35 +393,6 @@ app.get("/reset", function (req, res) {
 })
 //This is called when reset button clicked
 
-app.get("/buttonReset", function (req, res) {
-
-  console.log(req.sessionID)
-
-  const odir = __dirname+'/compressedImages/'+req.sessionID
-
-  if (fs.existsSync(__dirname+"/compressedImages/"+req.sessionID)) { //Create a folder if not exists
-
-    const ofiles = fs.readdirSync(odir)
-
-    for (let ofile of ofiles) {
-
-      ofile = __dirname+'/compressedImages/'+req.sessionID+"/"+ ofile;
-  
-      fs.unlink(ofile, (err) => {
-        if (err) {
-          throw err;
-        }
-  
-        console.log(ofile+" is deleted.");
-      });
-  
-    }
-
-  }
-  
-  res.send("deleted output")
-
-})
 
 //This is called before compression
 app.get("/deleteOutput", function (req, res) {
@@ -317,6 +421,17 @@ app.get("/deleteOutput", function (req, res) {
   if (fs.existsSync(__dirname+"/"+req.sessionID+".zip")) {
   
     fs.unlink(__dirname+"/"+req.sessionID+".zip", (err) => {
+      if (err) {
+        throw err;
+      }
+  
+      console.log("Zip is deleted.")
+    })
+  }
+
+  if (fs.existsSync(__dirname+"/"+req.sessionID+"log"+".zip")) {
+  
+    fs.unlink(__dirname+"/"+req.sessionID+"log"+".zip", (err) => {
       if (err) {
         throw err;
       }
