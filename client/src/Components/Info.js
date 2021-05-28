@@ -56,26 +56,26 @@ function Info() {
     return (
       <div className="row">
           <div id="example-fade-text">
-          <div className="m-3">
-          <ul className="list-group">
-          <li className="list-group-item">
-           <label className="btn btn-primary">
-           <h5>Upload Your Quantization Table !!!</h5>
+          <div className="m-1">
+          <label className="btn btn-primary col-12">
+           <h5>Upload Your Configuration File Here</h5>
           <input type="file" hidden id="file" name="file" multiple="multiple" onChange={upload} />
           </label>
-          </li>
-          <li className="list-group-item"><a href="https://github.com/mozilla/mozjpeg/blob/master/usage.txt">Mozjpeg</a></li>
-          <li className="list-group-item"><a href="https://github.com/cloudflare/jpegtran/blob/master/usage.txt">Jpegtran</a></li>
-          <li className="list-group-item"><a href="https://developers.google.com/speed/webp/docs/cwebp">Webp</a></li>
-          <li className="list-group-item"><a href="https://github.com/google/guetzli">Guetzli</a></li>
-          <li className="list-group-item"><a href="https://github.com/imagemin/guetzli-bin">Guetzli-Bin</a></li>
-          <li className="list-group-item"><a href="https://github.com/imagemin/jpeg-recompress-bin">jpeg-Recompress</a></li>
-          <li className="list-group-item"><a href="https://github.com/imagemin/jpegoptim-bin">jpeg-Optim</a></li>
-          <li className="list-group-item"><a href="https://github.com/imagemin/pngquant-bin">png-quant</a></li>
-          <li className="list-group-item"><a href="https://github.com/imagemin/pngcrush-bin">png-crush</a></li>
-          <li className="list-group-item"><a href="https://www.npmjs.com/package/svgo">svgo</a></li>
-          <li className="list-group-item"><a href="https://github.com/imagemin/gifsicle-bin">gifsicle</a></li>
-          <li className="list-group-item"><a href="https://www.npmjs.com/package/giflossy">gif-lossy</a></li>
+          <ul className="list-group">
+          {/* <li className="list-group-item">
+          </li> */}
+          {/* <li className="list-group-item"><a href="https://github.com/mozilla/mozjpeg/blob/master/usage.txt">Mozjpeg</a></li> */}
+          {/* <li className="list-group-item"><a href="https://github.com/cloudflare/jpegtran/blob/master/usage.txt">Jpegtran</a></li> */}
+          {/* <li className="list-group-item"><a href="https://developers.google.com/speed/webp/docs/cwebp">Webp</a></li> */}
+          {/* <li className="list-group-item"><a href="https://github.com/google/guetzli">Guetzli</a></li> */}
+          {/* <li className="list-group-item"><a href="https://github.com/imagemin/guetzli-bin">Guetzli-Bin</a></li> */}
+          {/* <li className="list-group-item"><a href="https://github.com/imagemin/jpeg-recompress-bin">jpeg-Recompress</a></li> */}
+          {/* <li className="list-group-item"><a href="https://github.com/imagemin/jpegoptim-bin">jpeg-Optim</a></li> */}
+          {/* <li className="list-group-item"><a href="https://github.com/imagemin/pngquant-bin">png-quant</a></li> */}
+          {/* <li className="list-group-item"><a href="https://github.com/imagemin/pngcrush-bin">png-crush</a></li> */}
+          {/* <li className="list-group-item"><a href="https://www.npmjs.com/package/svgo">svgo</a></li> */}
+          {/* <li className="list-group-item"><a href="https://github.com/imagemin/gifsicle-bin">gifsicle</a></li> */}
+          {/* <li className="list-group-item"><a href="https://www.npmjs.com/package/giflossy">gif-lossy</a></li> */}
 
 
           </ul>

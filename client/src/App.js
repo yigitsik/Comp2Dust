@@ -12,7 +12,7 @@ function App() {
 
       <Jumbotron/>                               {/* Header of the site */}
       <Tools/>                                   {/* This is where magic happens */}
-      <Footer/>                                  {/* Bottom part of the sites */}
+      <Footer/>                                  {/* Bottom part of the site */}
 
       </div>
       

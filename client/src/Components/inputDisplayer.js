@@ -123,6 +123,8 @@ function InputDisplayer(props)
 
 <div >
 
+<div className="col-lg-12" id="table">
+
 <table className="table shadow-sm">
 
 {
@@ -148,6 +150,7 @@ function InputDisplayer(props)
  </tbody>
 
 </table>
+</div>
          
          </div>
                 

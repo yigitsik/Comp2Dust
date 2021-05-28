@@ -44,26 +44,7 @@ function ImageContainer(props)
 
   }
 
-  function download()
-  {
-
-    axios.get('/download/log')
-    .then(function (response) {
-
-
-      if (process.env.NODE_ENV === 'production') {                                 //This forces browser to download
-        window.open("https://comp2dust.herokuapp.com/download/log");
-      }
-      else
-      {
-        window.open("http://localhost:5000/download/log");
-      }
-
-   }).catch(function (error) {
-      console.log(error);
-    });
-
-  }
+  
 
    return(
 
@@ -100,8 +81,7 @@ function ImageContainer(props)
 
         {props.errorStatus?                                                             //InfoBoxes
         <div className=" alert alert-info text-center mt-3">
-        <p>There was an error, You can download the error log to get a clue</p>
-        <a onClick={download} download="log" className="btn btn-primary">download</a>
+        <p>There was an error, check your commands</p>
         </div>:null}
 
         </div>                                               

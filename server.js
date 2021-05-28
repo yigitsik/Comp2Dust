@@ -38,6 +38,7 @@ app.use(session({
 }));
 //Set-up session options
 
+
 // Set destination for Multer
 var storage = multer.diskStorage({
 
@@ -121,11 +122,26 @@ app.post("/uploadText", (req, res) => {
 //This triggers on submit button clicked
 app.post("/compSubmit", (req, res) => {
 
+  process.on('uncaughtException', (error, origin) => {
+    console.log('----- Uncaught exception -----')
+    console.log(error)
+    console.log('----- Exception origin -----')
+    console.log(origin)    
+  })
+
+  process.on('unhandledRejection', (reason, promise) => {
+    console.log('----- Unhandled Rejection at -----')
+    console.log(promise)
+    console.log('----- Reason -----')
+    console.log(reason)
+  })
+
   let form = req.body;
   let commandJPG;
   let commandPNG;
+  let commandSVG;
+  let commandGIF;
 
-  console.log( )
 
   if(form.JPG== "mozjpeg" && req.body.commandJPG==="")
   {
@@ -145,41 +161,41 @@ app.post("/compSubmit", (req, res) => {
     commandJPG = req.body.commandJPG.split(" ");
   }
 
-  if(form.JPG== "webp" && req.body.commandJPG==="")
-  {
-    commandJPG = ['-q', '60'];
-  }
-  else if(form.JPG== "webp"&& req.body.commandJPG!=="")
-  {
-    commandJPG = req.body.commandJPG.split(" ");
-  }
+  // if(form.JPG== "webp" && req.body.commandJPG==="")
+  // {
+  //   commandJPG = ['-q', '60','image.jpg','-o','image.jpg'];
+  // }
+  // else if(form.JPG== "webp"&& req.body.commandJPG!=="")
+  // {
+  //   commandJPG = req.body.commandJPG.split(" ");
+  // }
 
-  if(form.JPG== "guetzli" && req.body.commandJPG==="")
-  {
-    commandJPG = ['--quality', '84'];
-  }
-  else if(form.JPG== "guetzli"&& req.body.commandJPG!=="")
-  {
-    commandJPG = req.body.commandJPG.split(" ");
-  }
+  // if(form.JPG== "guetzli" && req.body.commandJPG==="")
+  // {
+  //   commandJPG = ['--quality', '84'];
+  // }
+  // else if(form.JPG== "guetzli"&& req.body.commandJPG!=="")
+  // {
+  //   commandJPG = req.body.commandJPG.split(" ");
+  // }
 
-  if(form.JPG== "jpegRecompress" && req.body.commandJPG==="")
-  {
-    commandJPG = ['--quality', 'high', '--min', '60'];
-  }
-  else if(form.JPG== "jpegRecompress" && req.body.commandJPG!=="")
-  {
-    commandJPG = req.body.commandJPG.split(" ");
-  }
+  // if(form.JPG== "jpegRecompress" && req.body.commandJPG==="")
+  // {
+  //   commandJPG = ['--quality', 'high', '--min', '10'];
+  // }
+  // else if(form.JPG== "jpegRecompress" && req.body.commandJPG!=="")
+  // {
+  //   commandJPG = req.body.commandJPG.split(" ");
+  // }
 
-  if(form.JPG== "jpegoptim" && req.body.commandJPG==="")
-  {
-    commandJPG = ['--all-progressive', '-d'];
-  }
-  else if(form.JPG== "jpegoptim" && req.body.commandJPG!=="")
-  {
-    commandJPG = req.body.commandJPG.split(" ");
-  }
+  // if(form.JPG== "jpegoptim" && req.body.commandJPG==="")
+  // {
+  //   commandJPG = ['--all-progressive', '-d'];
+  // }
+  // else if(form.JPG== "jpegoptim" && req.body.commandJPG!=="")
+  // {
+  //   commandJPG = req.body.commandJPG.split(" ");
+  // }
 
   if(form.PNG== "pngquant" && req.body.commandPNG==="")
   {
@@ -190,50 +206,48 @@ app.post("/compSubmit", (req, res) => {
     commandPNG = req.body.commandPNG.split(" ");
   }
 
-  if(form.PNG== "optipng" && req.body.commandPNG==="")
-  {
-    commandPNG = ['-o4'];
-  }
-  else if(form.PNG== "optipng" && req.body.commandPNG!=="")
-  {
-    commandPNG = req.body.commandPNG.split(" ");
-  }
+  // if(form.PNG== "optipng" && req.body.commandPNG==="")
+  // {
+  //   commandPNG = ['-o7','-zm1-9'];
+  // }
+  // else if(form.PNG== "optipng" && req.body.commandPNG!=="")
+  // {
+  //   commandPNG = req.body.commandPNG.split(" ");
+  // }
 
-  if(form.PNG== "pngout" && req.body.commandPNG==="")
-  {
-     commandPNG = ['/b#'];
-  }
-  else if(form.PNG== "pngout" && req.body.commandPNG!=="")
-  {
-    commandPNG = req.body.commandPNG.split(" ");
-  }
+  // if(form.PNG== "pngout" && req.body.commandPNG==="")
+  // {
+  //    commandPNG = ['/b#'];
+  // }
+  // else if(form.PNG== "pngout" && req.body.commandPNG!=="")
+  // {
+  //   commandPNG = req.body.commandPNG.split(" ");
+  // }
 
-  if(form.PNG== "webp" && req.body.commandPNG==="")
-  {
-     commandPNG = ['-q', '60'];
-  }
-  else if(form.PNG== "webp" && req.body.commandPNG!=="")
-  {
-    commandPNG = req.body.commandPNG.split(" ");
-  }
+   //Unable to show when image is converted into another format
 
-  if(form.PNG== "pngcrush" && req.body.commandPNG==="")
-  {
-     commandPNG = ['-reduce', '-brute'];
-  }
-  else if(form.PNG== "pngcrush" && req.body.commandPNG!=="")
-  {
-    commandPNG = req.body.commandPNG.split(" ");
-  }
 
-  if(form.SVG== "svgo" && req.body.commandSVG==="")
-  {
-     commandSVG = ["--multipass"];
-  }
-  else if(form.SVG== "svgo" && req.body.commandSVG!=="")
-  {
-    commandSVG = req.body.commandSVG.split(" ");
-  }
+  // if(form.PNG== "webp" && req.body.commandPNG==="")
+  // {
+  //    commandPNG = ['-q', '60'];
+  // }
+  // else if(form.PNG== "webp" && req.body.commandPNG!=="")
+  // {
+  //   commandPNG = req.body.commandPNG.split(" ");
+  // }
+
+   //Unable to show when image is converted into another format
+
+
+
+  // if(form.SVG== "svgo" && req.body.commandSVG==="")
+  // {    
+  //    commandSVG = ["--multipass"];
+  // }
+  // else if(form.SVG== "svgo" && req.body.commandSVG!=="")
+  // {
+  //   commandSVG = req.body.commandSVG.split(" ");
+  // } 
 
   if(form.GIF== "gifsicle" && req.body.commandGIF==="")
   {
@@ -244,15 +258,32 @@ app.post("/compSubmit", (req, res) => {
     commandGIF = req.body.commandGIF.split(" ");
   }
 
-  if(form.GIF== "gif2webp" && req.body.commandGIF==="")
-  {
-     commandGIF = ['-f', '80', '-mixed', '-q', '30', '-m', '2'];
-  }
-  else if(form.GIF== "gif2webp" && req.body.commandGIF!=="")
-  {
-    commandGIF = req.body.commandGIF.split(" ");
-  }
+  //Unable to show when image is converted into another format
 
+
+  // if(form.GIF== "gif2webp" && req.body.commandGIF==="")
+  // {
+  //    commandGIF = ['-f', '80', '-mixed', '-q', '30', '-m', '2',];
+  // }
+  // else if(form.GIF== "gif2webp" && req.body.commandGIF!=="")
+  // {
+  //   commandGIF = req.body.commandGIF.split(" ");
+  // }
+
+  // if(form.GIF== "giflossy" && req.body.commandGIF==="")
+  // {
+  //   console.log("ff")
+  //    commandGIF = ['--lossy=80'];
+  // }
+  // else if(form.GIF== "giflossy" && req.body.commandGIF!=="")
+  // {
+  //   commandGIF = req.body.commandGIF.split(" ");
+  // }
+
+
+    //Unable to show when image is converted into another format
+
+   
 
   const processImages = async (onProgress) => {
     const result = await compress({
@@ -285,18 +316,23 @@ app.post("/compSubmit", (req, res) => {
     // statistics - all processed images list
     // errors - all errros happened list
     
+
       res.send(result)
       
   };
 
-  processImages((error, statistic, completed) => {
-    if (error) {
-        console.log('Error happen while processing file');
-        console.log(error);
-        return;
-    }
-    
-});
+ 
+    processImages((error, statistic, completed) => {
+      if (error) {
+          console.log('Error happen while processing file');
+          console.log(error);
+          return;
+      }
+
+  });
+  
+ 
+
 
 });
 //This triggers on submit button clicked
@@ -336,13 +372,7 @@ res.download(__dirname +"/"+req.sessionID+'.zip','images.zip');
 })
 //This is called when download button clicked
 
-app.get("/download/log", function (req, res) {
-  
-  zipper.sync.zip(__dirname+"/log/"+req.sessionID+"/").compress().save(req.sessionID+"log"+".zip");
-  
-  res.download(__dirname +"/"+req.sessionID+"log"+'.zip','log.zip');
-  
-  })
+
 
 //This is called when reset button clicked
 app.get("/reset", function (req, res) {

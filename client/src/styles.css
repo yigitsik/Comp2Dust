@@ -35,6 +35,10 @@ footer
     color: azure
 }
 
+.title
+{
+  color: azure
+}
 
 #status
 {
@@ -99,4 +103,9 @@ img
 {
 
     padding: 5px;
+}
+
+#table
+{
+  word-break: break-word;
 }

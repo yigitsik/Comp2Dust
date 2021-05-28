@@ -116,6 +116,7 @@ function Tools ()
      rename();                                                            //rename compressed files
      setIsLoading(false)
      
+
      if(response.data.errors[0]!=null)
      {
       setErrorExist(true)
@@ -200,7 +201,7 @@ function Tools ()
         {
         !isInputAvailable?
         <div className=" alert alert-info text-center">
-        <strong>To get started use the upload button to upload up to 100 JPG, PNG, GIF, SVG files</strong>                     {/* Info Box */}
+        <strong>To get started use the upload button to upload up to 100 JPG, PNG, GIF files</strong>                     {/* Info Box */}
         </div>:null
         }
 
