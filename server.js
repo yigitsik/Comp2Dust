@@ -149,7 +149,7 @@ app.post("/compSubmit", (req, res) => {
   }
   else if(form.JPG== "mozjpeg"&& req.body.commandJPG!=="")
   {
-    commandJPG = req.body.commandJPG.split(" ");
+    commandJPG = req.body.commandJPG.trim().split(" ");
   }
 
   if(form.JPG== "jpegtran" && req.body.commandJPG==="")
@@ -158,7 +158,7 @@ app.post("/compSubmit", (req, res) => {
   }
   else if(form.JPG== "jpegtran"&& req.body.commandJPG!=="")
   {
-    commandJPG = req.body.commandJPG.split(" ");
+    commandJPG = req.body.commandJPG.trim().split(" ");
   }
 
   // if(form.JPG== "webp" && req.body.commandJPG==="")
@@ -203,7 +203,7 @@ app.post("/compSubmit", (req, res) => {
   }
   else if(form.PNG== "pngquant" && req.body.commandPNG!=="")
   {
-    commandPNG = req.body.commandPNG.split(" ");
+    commandPNG = req.body.commandPNG.trim().split(" ");
   }
 
   // if(form.PNG== "optipng" && req.body.commandPNG==="")
@@ -255,7 +255,7 @@ app.post("/compSubmit", (req, res) => {
   }
   else if(form.GIF== "gifsicle" && req.body.commandGIF!=="")
   {
-    commandGIF = req.body.commandGIF.split(" ");
+    commandGIF = req.body.commandGIF.trim().split(" ");
   }
 
   //Unable to show when image is converted into another format

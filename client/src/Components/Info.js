@@ -58,8 +58,8 @@ function Info() {
           <div id="example-fade-text">
           <div className="m-1">
           <label className="btn btn-primary col-12">
-           <h5>Upload Your Configuration File Here</h5>
-          <input type="file" hidden id="file" name="file" multiple="multiple" onChange={upload} />
+           <h5>Upload Configuration File</h5>
+          <input type="file" hidden id="file" name="file" multiple="multiple" accept=".txt" onChange={upload} />
           </label>
           <ul className="list-group">
           {/* <li className="list-group-item">

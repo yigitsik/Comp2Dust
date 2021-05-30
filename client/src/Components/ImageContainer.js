@@ -4,13 +4,13 @@ import "react-multi-carousel/lib/styles.css";
 import {responsiveMain} from "./CarouselHelper";
 import ReactCompareImage from 'react-compare-image';
 import {ProgressBar} from "react-bootstrap";
-import axios from "axios";
 
 
 
 
 function ImageContainer(props)  
 {
+
  
   function createDef()
   {

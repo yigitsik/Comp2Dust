@@ -9,7 +9,7 @@ import SelectBox from "./selectBox";
 function Tools () 
 {
 
-  // Initilize the States
+  // Initialize the States
   const [inputArray, setInputArray] = useState(null);
   const [inputFiles, setInputFiles] = useState(null);
   const [outputArray,setOutputArray] = useState(null)
@@ -23,7 +23,7 @@ function Tools ()
   const [totalOutputSize,setTotalOutputSize]= useState(0);
   const [isLoading,setIsLoading] = useState(false);
   const [errorExist,setErrorExist] = useState(false);
-  // Initilize the States
+  // Initialize the States
 
 
   //This triggers on upload
@@ -80,8 +80,12 @@ function Tools ()
         inputArr.push(piece.name)
         }) 
 
-       setInputArray({inputArray: inputArr})                            
-       setIsInputAvailable(true)
+        if(inputArr[0]!= undefined)
+        {
+          setInputArray({inputArray: inputArr})                            
+          setIsInputAvailable(true)   
+        }
+
 
       })
       .catch(function (error) {
@@ -193,7 +197,7 @@ function Tools ()
         <div className="btn-group col-12 mb-3 ">
       <label className="btn btn-primary" title="select an image (jpeg, png , gif)">
        <h5>Upload</h5>
-      <input type="file" hidden id="file" name="file" multiple="multiple" onChange={upload}/>        {/* Input Button */}
+      <input type="file" hidden id="file" name="file" multiple="multiple" accept=".gif,.jpg,.jpeg,.png" onChange={upload}/>        {/* Input Button */}
       </label>
         </div>
 

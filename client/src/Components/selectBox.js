@@ -34,7 +34,7 @@ function SelectBox (){
                             className="d-inline-flex align-items-center"
                         >
                             <div ref={ref}>
-                            <a href="google.com">What are the commands?</a>
+                            <a href="https://github.com/YigitSIK/Comp2Dust" target="_blank">What are the commands?</a>
                         
                             </div>
                         </Button>
