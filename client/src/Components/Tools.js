@@ -25,7 +25,6 @@ function Tools ()
   const [errorExist,setErrorExist] = useState(false);
   // Initilize the States
 
-  
 
   //This triggers on upload
   function upload  (e)  {
@@ -192,7 +191,7 @@ function Tools ()
         <>
 
         <div className="btn-group col-12 mb-3 ">
-      <label className="btn btn-primary" title="select an image (jpeg, png)">
+      <label className="btn btn-primary" title="select an image (jpeg, png , gif)">
        <h5>Upload</h5>
       <input type="file" hidden id="file" name="file" multiple="multiple" onChange={upload}/>        {/* Input Button */}
       </label>
@@ -217,21 +216,13 @@ function Tools ()
       <h4 className="card-header">Options</h4>
       <div className="card-body">
 
-        {/* <fieldset className="form-group m-5">
-
-          <div className="form-group row">
-            <label htmlFor="comp_rate"><h6>Quality</h6></label>
-            <input type="range" name="rate" min="0" max="100"/>
-          </div>
-
-        </fieldset> */}
 
               <SelectBox/>                                                                         {/* Options Box */}
 
 
 
          <div className="form-group row m-5">
-          <button className="btn bg-primary" onClick={compress} type="button">Compress</button>                   {/* Compress button */}
+         { isLoading?null:<button className="btn bg-primary" onClick={compress} type="button">Compress</button>  }                 {/* Compress button */}
          </div>
 
       </div>

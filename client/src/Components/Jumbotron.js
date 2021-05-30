@@ -7,11 +7,11 @@ function Jumbotron() {
 
     <header className="navbar-brand header" > 
     
-    <div>Comp2Dust</div>
+    <div><h1>Comp2Dust</h1></div>
 
      </header>
 
-     <p className="title"><strong>Image Compressor</strong></p>
+     <h6 className="title"><strong>Image Compressor</strong></h6>
   
   </div>
 
