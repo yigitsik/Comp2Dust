@@ -1,4 +1,18 @@
-# Comp2Dust - User Manuel
+# Comp2Dust - User Manual
+
+To run locally 
+
+npm install //in root directory
+
+cd ./client  
+
+npm install
+
+cd ..
+
+yarn dev
+
+<hr>
 
 
 This document explains commands in application and gives examples.
