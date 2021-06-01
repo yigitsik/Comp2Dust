@@ -71,7 +71,7 @@ function ImageContainer(props)
         </div>
 
         {props.checkOut&&props.errorStatus==false?                                                             //InfoBoxes
-        <div className=" alert alert-info text-center mt-3">
+        <div className=" alert alert-info text-center mt-1">
         You have saved {(props.size-props.oSize).toFixed(1)} kb in total
         </div>:null}
         
