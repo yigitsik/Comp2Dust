@@ -5,7 +5,7 @@ function Jumbotron() {
 
     <div className="jumbotron jumbotron-fluid " style={{ backgroundImage: "url(./images/header.jpg)" }} >
 
-    <header className="navbar-brand header" > 
+    <header className=" header" > 
     
     <div><h1>Comp2Dust</h1></div>
 
