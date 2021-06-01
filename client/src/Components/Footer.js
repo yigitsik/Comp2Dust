@@ -14,13 +14,13 @@ function Footer()
 
           <ul className="nav navbar-nav" >
             <li className="nav-item" >
-              <a className="nav-link "  href="https://github.com/YigitSIK/Comp2Dust/tree/React2Dust/Documents">Docs</a>
+              <a className="nav-link " target="_blank" href="https://github.com/YigitSIK/Comp2Dust/tree/React2Dust/Documents">Docs</a>
             </li>
             <li className="nav-item ">
-              <a className="nav-link"  href="https://github.com/YigitSIK/Comp2Dust" >GitHub</a>
+              <a className="nav-link" target="_blank" href="https://github.com/YigitSIK/Comp2Dust" >GitHub</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link  " href="https://github.com/YigitSIK/Comp2Dust">Examples</a>
+              <a className="nav-link" target="_blank" href="https://github.com/YigitSIK/Comp2Dust">Examples</a>
             </li>
           </ul>
 
