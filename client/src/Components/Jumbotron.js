@@ -7,7 +7,7 @@ function Jumbotron() {
 
     <header className=" header" > 
     
-    <div><h1>Comp2Dust</h1></div>
+    <div><strong>Comp2Dust</strong></div>
 
      </header>
 
