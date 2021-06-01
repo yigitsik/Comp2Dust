@@ -17,8 +17,23 @@
   text-align: center;
   object-fit: cover;
 
-  font-size: 60px;
+  font-size: 5rem;
   color: azure;
+
+
+
+}
+
+@media (max-width: 576px)
+{
+  .header
+  {
+
+    font-size: 3rem;
+
+  }
+
+
 }
 
 footer
