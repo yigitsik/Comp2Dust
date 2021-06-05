@@ -22,6 +22,7 @@ function Tools ()
   const [totalSize,setTotalSize] = useState(0);
   const [totalOutputSize,setTotalOutputSize]= useState(0);
   const [isLoading,setIsLoading] = useState(false);
+  const [isUploadComplete,setIsUploadComplete] = useState(true);
   const [errorExist,setErrorExist] = useState(false);
   // Initialize the States
 
@@ -85,6 +86,8 @@ function Tools ()
           setInputArray({inputArray: inputArr})                            
           setIsInputAvailable(true)   
         }
+
+        setIsUploadComplete(true)
 
 
       })
@@ -197,7 +200,7 @@ function Tools ()
         <div className="btn-group col-12 mb-3 ">
       <label className="btn btn-primary" title="select an image (jpeg, png , gif)">
        <h5>Upload</h5>
-      <input type="file" hidden id="file" name="file" multiple="multiple" accept=".gif,.jpg,.jpeg,.png" onChange={upload}/>        {/* Input Button */}
+      {!isUploadComplete?null:<input type="file" hidden id="file" name="file" multiple="multiple" accept=".gif,.jpg,.jpeg,.png" onChange={upload}/>}        {/* Input Button */}
       </label>
         </div>
 
