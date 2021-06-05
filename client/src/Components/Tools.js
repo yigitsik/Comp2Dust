@@ -63,7 +63,10 @@ function Tools ()
         fd.append('file',element)
       }
 
+      setIsUploadComplete(false)
+
       axios.post('/upload', fd ,{                          //Send input files to Multer
+        
       
         onUploadProgress: progressEvent =>
         {
