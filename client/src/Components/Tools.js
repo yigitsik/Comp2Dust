@@ -232,7 +232,7 @@ function Tools ()
 
 
          <div className="form-group row m-5">
-         { isLoading?null:<button className="btn bg-primary" onClick={compress} type="button">Compress</button>  }                 {/* Compress button */}
+         { isLoading===true||isInputAvailable===false?null:<button className="btn bg-primary" onClick={compress} type="button">Compress</button>  }                 {/* Compress button */}
          </div>
 
       </div>
