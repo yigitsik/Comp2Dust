@@ -127,6 +127,7 @@ app.post("/compSubmit", (req, res) => {
     console.log(error)
     console.log('----- Exception origin -----')
     console.log(origin)    
+    res.end("error")
   })
 
   process.on('unhandledRejection', (reason, promise) => {
@@ -134,6 +135,7 @@ app.post("/compSubmit", (req, res) => {
     console.log(promise)
     console.log('----- Reason -----')
     console.log(reason)
+    res.end("error")
   })
 
   let form = req.body;

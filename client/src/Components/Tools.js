@@ -120,16 +120,25 @@ function Tools ()
      
     axios.post('/compSubmit', formData )                          //Send form data from options box to compress                       
     .then(function (response) {
- 
-     setCompressionStatistics(response.data.statistics)
-     rename();                                                            //rename compressed files
-     setIsLoading(false)
-     
 
-     if(response.data.errors[0]!=null)
+     console.log(response.data)
+
+     let err;
+
+     typeof response.data == 'object' && response.data.errors[0] != null ? err= true : err= false
+     typeof response.data == 'string' && response.data.search("error")==0 ? err = true : err = false
+
+     if(err==true)
      {
       setErrorExist(true)
       setIsCompressedAvailable(false)
+      setIsLoading(false)
+     }
+     else
+     {
+      setCompressionStatistics(response.data.statistics)
+      rename();                                                            //rename compressed files
+      setIsLoading(false)
      }
 
  
