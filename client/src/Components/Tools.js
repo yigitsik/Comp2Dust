@@ -225,7 +225,7 @@ function Tools ()
 
          <div className="row">             {/* Main Image Container */}
 
-          <ImageContainer imageArray={inputArray} outputArray={outputArray} checkOut={isCompressedAvailable} checkIn={isInputAvailable} statistics={compressionStatistics} sessionID={currentSessionId} uploadProgress={uploadProgress} size={totalSize} oSize={totalOutputSize} loadingStatus={isLoading} errorStatus={errorExist}/>
+          <ImageContainer imageArray={inputArray} outputArray={outputArray} checkOut={isCompressedAvailable} checkIn={isInputAvailable} statistics={compressionStatistics} sessionID={currentSessionId} uploadProgress={uploadProgress} size={totalSize} oSize={totalOutputSize} loadingStatus={isLoading} uploadStatus={isUploadComplete} errorStatus={errorExist}/>
 
           <div className="col-lg-4 mb-4 ">
 

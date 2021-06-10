@@ -11,12 +11,12 @@ import {ProgressBar} from "react-bootstrap";
 function ImageContainer(props)  
 {
 
-  console.log(props)
+  
  
   function createDef()
   {
 
-    if(props.loadingStatus===true)
+    if(props.uploadStatus===false)
     {
 
       return(
