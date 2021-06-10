@@ -11,14 +11,32 @@ import {ProgressBar} from "react-bootstrap";
 function ImageContainer(props)  
 {
 
+  console.log(props)
  
   function createDef()
   {
-    return(
-      <div className="card " id="mainCard">
-    <ReactCompareImage key={"default"} leftImage="/images/upload.jpg" rightImage="/images/upload.jpg" />
-    </div>
-    )
+
+    if(props.loadingStatus===true)
+    {
+
+      return(
+        <div className="card " id="mainCard">
+      <ReactCompareImage key={"default"} leftImage="/images/wait.jpg" rightImage="/images/wait.jpg" />
+      </div>
+      )
+
+    }
+    else
+    {
+
+      return(
+        <div className="card " id="mainCard">
+      <ReactCompareImage key={"default"} leftImage="/images/upload.jpg" rightImage="/images/upload.jpg" />
+      </div>
+      )
+
+    }
+    
   }
 
   function createImage(data,index) {    
