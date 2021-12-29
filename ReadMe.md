@@ -15,7 +15,7 @@ yarn dev
 <hr>
 
 
-This document explains commands in application and gives examples.
+This document explains the commands in the application and gives examples.
 
 * User uploads a single image or up-to 100 image files through "Upload" button.
 * To use Mozjpeg's  "-qtables" command user must upload his text file,
