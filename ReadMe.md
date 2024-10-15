@@ -237,6 +237,4 @@ Reduce the color number to N. Effective interval 2-10
 Apply dithering after compression
 	
 ***********
-<strong>These are tested, general use commands, there are many more. To see more you can check 
-compression engines' own manuals </strong>  
-***********
+
